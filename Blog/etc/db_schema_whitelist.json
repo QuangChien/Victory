@@ -1,0 +1,40 @@
+{
+    "gv_blog_category": {
+        "column": {
+            "category_id": true,
+            "name": true,
+            "meta_title": true,
+            "meta_keywords": true,
+            "meta_description": true,
+            "url_key": true,
+            "description": true,
+            "path": true,
+            "position": true,
+            "posts_sort_by": true,
+            "posts_per_page": true,
+            "is_active": true
+        },
+        "index": {
+            "GV_BLOG_CATEGORY_URL_KEY": true,
+            "FTI_00955A0980267A081BA1EE908C9467F3": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "GV_BLOG_CATEGORY_NAME": true
+        }
+    },
+    "gv_blog_category_store": {
+        "column": {
+            "category_id": true,
+            "store_id": true
+        },
+        "index": {
+            "GV_BLOG_CATEGORY_STORE_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "GV_BLOG_CATEGORY_STORE_CATEGORY_ID_GV_BLOG_CATEGORY_CATEGORY_ID": true,
+            "GV_BLOG_CATEGORY_STORE_STORE_ID_STORE_STORE_ID": true
+        }
+    }
+}
