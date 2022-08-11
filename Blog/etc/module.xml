@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @author  QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
  * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
  */
 -->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Victory_Blog" setup_version="2.0.1">
         <sequence>

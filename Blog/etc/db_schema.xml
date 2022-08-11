@@ -1,6 +1,6 @@
 <!--
 /**
- * @author  QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
  * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
  */
 -->
@@ -43,7 +43,7 @@
     </table>
 
     <table name="gv_blog_category_store" resource="default" engine="innodb"
-           comment="Blog Category Table">
+           comment="Blog Category Store Table">
         <column xsi:type="int" name="category_id" unsigned="true" nullable="false"
                 comment="Category ID"/>
         <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false"
@@ -61,5 +61,130 @@
         <constraint xsi:type="foreign" referenceId="STORE_ID_BLOG_CATEGORY_STORE_TABLE"
                     table="gv_blog_category_store" column="store_id" referenceTable="store"
                     referenceColumn="store_id" onDelete="CASCADE"/>
+    </table>
+
+    <table name="gv_blog_post" resource="default" engine="innodb"
+           comment="Blog Post Table">
+        <column xsi:type="int" name="post_id" unsigned="true" nullable="false" identity="true"
+                comment="Post ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Post Title"/>
+        <column xsi:type="varchar" name="meta_title" nullable="true" length="255" comment="Post Meta Title"/>
+        <column xsi:type="varchar" name="meta_keywords" nullable="true" length="50"
+                comment="Post Meta Keywords"/>
+        <column xsi:type="varchar" name="meta_description" nullable="true" length="255"
+                comment="Post Meta Description"/>
+        <column xsi:type="varchar" name="url_key" nullable="false" length="100" comment="Post Url Key"/>
+        <column xsi:type="mediumtext" name="description" nullable="true" comment="Post Description"/>
+        <column xsi:type="mediumtext" name="content" nullable="true" comment="Post Description"/>
+        <column xsi:type="smallint" name="position" nullable="true" comment="Category Position"/>
+        <column xsi:type="varchar" name="featured_img" nullable="true" length="255" comment="Featured Image"/>
+        <column xsi:type="varchar" name="featured_img_alt" nullable="true" length="255" comment="Featured Image Alt"/>
+        <column xsi:type="int" name="author_id" unsigned="true" nullable="true" comment="Author ID"/>
+        <column xsi:type="int" name="views_count" unsigned="true" nullable="true" comment="Post Views Count"/>
+        <column xsi:type="int" name="comments_count" unsigned="true" nullable="true" comment="Post Comment Counts"/>
+        <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Post Creation Time"/>
+        <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Post Modification Time"/>
+        <column xsi:type="datetime" name="publish_time" on_update="true" nullable="true" comment="Publish Time"/>
+        <column xsi:type="smallint" name="is_active" comment="Is Category Active" default="1"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="post_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNIQUE">
+            <column name="title"/>
+        </constraint>
+        <index referenceId="BLOG_POST_URL_KEY" indexType="btree">
+            <column name="url_key"/>
+        </index>
+        <index referenceId="BLOG_POST_AUTHOR_ID" indexType="btree">
+            <column name="author_id"/>
+        </index>
+        <index referenceId="BLOG_POST_VIEWS_COUNT" indexType="btree">
+            <column name="views_count"/>
+        </index>
+        <index referenceId="BLOG_CATEGORY_FULLTEXT" indexType="fulltext">
+            <column name="title"/>
+            <column name="meta_keywords"/>
+            <column name="meta_description"/>
+            <column name="url_key"/>
+            <column name="content"/>
+        </index>
+    </table>
+
+    <table name="gv_blog_post_store" resource="default" engine="innodb"
+           comment="Blog Post Store Table">
+        <column xsi:type="int" name="post_id" unsigned="true" nullable="false"
+                comment="Post ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false"
+                comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="post_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="BLOG_POST_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="BLOG_POST_ID_BLOG_POST_STORE_TABLE"
+                    table="gv_blog_post_store" column="post_id" referenceTable="gv_blog_post"
+                    referenceColumn="post_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="STORE_ID_BLOG_POST_STORE_TABLE"
+                    table="gv_blog_post_store" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+    </table>
+
+    <table name="gv_blog_post_category" resource="default" engine="innodb"
+           comment="Blog Post Category Table">
+        <column xsi:type="int" name="post_id" unsigned="true" nullable="false"
+                comment="Post ID"/>
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false"
+                comment="Category ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="post_id"/>
+            <column name="category_id"/>
+        </constraint>
+        <index referenceId="BLOG_CATEGORY_ID" indexType="btree">
+            <column name="category_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="BLOG_POST_ID_BLOG_POST_CATEGORY_TABLE"
+                    table="gv_blog_post_category" column="post_id" referenceTable="gv_blog_post"
+                    referenceColumn="post_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="BLOG_CATEGORY_ID_BLOG_POST_CATEGORY_TABLE"
+                    table="gv_blog_post_category" column="category_id" referenceTable="gv_blog_category"
+                    referenceColumn="category_id" onDelete="CASCADE"/>
+    </table>
+
+    <table name="gv_blog_comment" resource="default" engine="innodb"
+           comment="Blog Post Comment Table">
+        <column xsi:type="int" name="comment_id" unsigned="true" nullable="false" identity="true"
+                comment="Comment ID"/>
+        <column xsi:type="int" name="parent_id" nullable="true" comment="Parent ID"/>
+        <column xsi:type="int" name="post_id" nullable="true" comment="Post ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" comment="Customer ID"/>
+        <column xsi:type="smallint" name="author_type" nullable="true" comment="Author Type"/>
+        <column xsi:type="varchar" name="author_nickname" nullable="false" length="255" comment="Comment Author Nickname"/>
+        <column xsi:type="varchar" name="author_email" nullable="false" length="255" comment="Comment Author Email"/>
+        <column xsi:type="varchar" name="author_email" nullable="false" length="255" comment="Comment Author Email"/>
+        <column xsi:type="mediumtext" name="content" nullable="true" comment="Comment Content"/>
+        <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Comment Creation Time"/>
+        <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Comment Modification Time"/>
+        <column xsi:type="smallint" name="status" comment="Comment Status" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="comment_id"/>
+        </constraint>
+        <index referenceId="BLOG_COMMENT_PARENT_ID" indexType="btree">
+            <column name="parent_id"/>
+        </index>
+        <index referenceId="BLOG_COMMENT_POST_ID" indexType="btree">
+            <column name="post_id"/>
+        </index>
+        <index referenceId="BLOG_COMMENT_CUSTOMER_ID" indexType="btree">
+            <column name="customer_id"/>
+        </index>
+        <index referenceId="BLOG_COMMENT_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
     </table>
 </schema>

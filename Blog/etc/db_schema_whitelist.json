@@ -36,5 +36,89 @@
             "GV_BLOG_CATEGORY_STORE_CATEGORY_ID_GV_BLOG_CATEGORY_CATEGORY_ID": true,
             "GV_BLOG_CATEGORY_STORE_STORE_ID_STORE_STORE_ID": true
         }
+    },
+    "gv_blog_post": {
+        "column": {
+            "post_id": true,
+            "title": true,
+            "meta_title": true,
+            "meta_keywords": true,
+            "meta_description": true,
+            "url_key": true,
+            "description": true,
+            "content": true,
+            "position": true,
+            "featured_img": true,
+            "featured_img_alt": true,
+            "author_id": true,
+            "views_count": true,
+            "comments_count": true,
+            "creation_time": true,
+            "update_time": true,
+            "publish_time": true,
+            "is_active": true
+        },
+        "index": {
+            "GV_BLOG_POST_URL_KEY": true,
+            "GV_BLOG_POST_AUTHOR_ID": true,
+            "GV_BLOG_POST_VIEWS_COUNT": true,
+            "GV_BLOG_POST_TTL_META_KEYWORDS_META_DESCRIPTION_URL_KEY_CONTENT": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "GV_BLOG_POST_TITLE": true
+        }
+    },
+    "gv_blog_post_store": {
+        "column": {
+            "post_id": true,
+            "store_id": true
+        },
+        "index": {
+            "GV_BLOG_POST_STORE_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "GV_BLOG_POST_STORE_POST_ID_GV_BLOG_POST_POST_ID": true,
+            "GV_BLOG_POST_STORE_STORE_ID_STORE_STORE_ID": true
+        }
+    },
+    "gv_blog_post_category": {
+        "column": {
+            "post_id": true,
+            "category_id": true
+        },
+        "index": {
+            "GV_BLOG_POST_CATEGORY_CATEGORY_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "GV_BLOG_POST_CATEGORY_POST_ID_GV_BLOG_POST_POST_ID": true,
+            "GV_BLOG_POST_CATEGORY_CATEGORY_ID_GV_BLOG_CATEGORY_CATEGORY_ID": true
+        }
+    },
+    "gv_blog_comment": {
+        "column": {
+            "comment_id": true,
+            "parent_id": true,
+            "post_id": true,
+            "customer_id": true,
+            "author_type": true,
+            "author_nickname": true,
+            "author_email": true,
+            "content": true,
+            "creation_time": true,
+            "update_time": true,
+            "status": true
+        },
+        "index": {
+            "GV_BLOG_COMMENT_PARENT_ID": true,
+            "GV_BLOG_COMMENT_POST_ID": true,
+            "GV_BLOG_COMMENT_CUSTOMER_ID": true,
+            "GV_BLOG_COMMENT_STATUS": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
     }
 }

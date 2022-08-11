@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Victory_Blog::blog" title="Blog" module="Victory_Blog" sortOrder="40" resource="Magefan_Blog::blog"/>
+        <add id="Victory_Blog::post" title="Posts" module="Victory_Blog" parent="Victory_Blog::blog" sortOrder="10"
+             action="blog/post" resource="Victory_Blog::post"/>
+        <add id="Victory_Blog::category" title="Categories" module="Victory_Blog" parent="Victory_Blog::blog"
+             sortOrder="20" action="blog/category" resource="Victory_Blog::category"/>
+        <add id="Victory_Blog::comment" title="Comments" module="Victory_Blog" parent="Victory_Blog::blog"
+             sortOrder="30" action="blog/comment" resource="Victory_Blog::comment"/>
+        <add id="Magefan_Blog::widget" title="Add Blog Blocks via Widgets" module="Victory_Blog"
+             parent="Victory_Blog::blog" sortOrder="40" action="adminhtml/widget_instance"
+             resource="Magento_Widget::widget_instance"/>
+        <add id="Victory_Blog::config" title="Configuration" module="Victory_Blog" parent="Victory_Blog::blog"
+             sortOrder="50" action="adminhtml/system_config/edit/section/mfblog" resource="Victory_Blog::config"/>
+    </menu>
+</config>
