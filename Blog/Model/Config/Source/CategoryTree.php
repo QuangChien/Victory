@@ -6,14 +6,17 @@
 
 namespace Victory\Blog\Model\Config\Source;
 
+use Magento\Framework\Option\ArrayInterface;
+use Victory\Blog\Model\ResourceModel\Category\CollectionFactory;
+
 /**
  * CategoryTree
  *
  */
-class CategoryTree implements \Magento\Framework\Option\ArrayInterface
+class CategoryTree implements ArrayInterface
 {
     /**
-     * @var \Victory\Blog\Model\ResourceModel\Category\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_categoryCollectionFactory;
 
@@ -30,11 +33,10 @@ class CategoryTree implements \Magento\Framework\Option\ArrayInterface
     /**
      * Initialize dependencies.
      *
-     * @param \Victory\Blog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
-     * @param void
+     * @param CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        \Victory\Blog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
+        CollectionFactory $categoryCollectionFactory
     )
     {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
@@ -61,7 +63,7 @@ class CategoryTree implements \Magento\Framework\Option\ArrayInterface
         if (isset($childs[$itemId])) {
             foreach ($childs[$itemId] as $item) {
                 $data = [
-                    'label' => $item->getTitle() .
+                    'label' => $item->getName() .
                         ($item->getIsActive() ? '' : ' (' . __('Disabled') . ')'),
                     'value' => $item->getId(),
                 ];

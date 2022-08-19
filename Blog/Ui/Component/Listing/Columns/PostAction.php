@@ -7,21 +7,21 @@
 namespace Victory\Blog\Ui\Component\Listing\Columns;
 
 /**
- * CategoryAction class
+ * PostAction class
  */
-class CategoryAction extends Actions
+class PostAction extends Actions
 {
     /**
      * Controller name
      *
      * @var string
      */
-    protected $_controllerName = 'category';
+    protected $_controllerName = 'post';
 
     /**
-     * Category table primary
+     * Post table primary
      *
      * @var string
      */
-    protected $_primary = 'category_id';
+    protected $_primary = 'post_id';
 }

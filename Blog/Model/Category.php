@@ -32,4 +32,49 @@ class Category extends AbstractModel
     {
         return $plural ? 'Categories' : 'Category';
     }
+
+    /**
+     * Retrieve parent category id
+     *
+     * @return int|array
+     */
+    public function getParentId()
+    {
+        $parentIds = $this->getParentIds();
+        if ($parentIds) {
+            return $parentIds[count($parentIds) - 1];
+        }
+
+        return 0;
+    }
+
+    /**
+     * Retrieve parent category ids
+     * @return array
+     */
+    public function getParentIds()
+    {
+        $k = 'parent_ids';
+        if (!$this->hasData($k)) {
+            $this->setData(
+                $k,
+                $this->getPath() ? explode('/', $this->getPath()) : []
+            );
+        }
+
+        return $this->getData($k);
+    }
+
+    /**
+     * Check if category identifier exist for specific store
+     * return category id if category exists
+     *
+     * @param string $urlKey
+     * @param int $storeId
+     * @return int
+     */
+    public function checkUrlKey($urlKey, $storeId)
+    {
+        return $this->_getResource()->checkUrlKey($urlKey, $storeId);
+    }
 }

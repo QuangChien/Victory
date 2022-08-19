@@ -12,6 +12,10 @@ namespace Victory\Blog\Model\Config\Source;
  */
 class CategoryPath extends CategoryTree
 {
+    /**
+     * @param $itemId
+     * @return array
+     */
     protected function _getOptions($itemId = 0)
     {
         $childs =  $this->_getChilds();
@@ -27,7 +31,7 @@ class CategoryPath extends CategoryTree
         if (isset($childs[$itemId])) {
             foreach ($childs[$itemId] as $item) {
                 $data = [
-                    'label' => $item->getTitle() .
+                    'label' => $item->getName() .
                         ($item->getIsActive() ? '' : ' ('.__('Disabled').')'),
                     'value' => ($item->getParentIds() ? $item->getPath().'/' : '') . $item->getId(),
                 ];
@@ -38,7 +42,6 @@ class CategoryPath extends CategoryTree
                 $options[] = $data;
             }
         }
-
         return $options;
     }
 }

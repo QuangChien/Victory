@@ -21,6 +21,8 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init('Victory\Blog\Model\Category', 'Victory\Blog\Model\ResourceModel\Category');
+        $this->_map['fields']['category_id'] = 'main_table.category_id';
+        $this->_map['fields']['store'] = 'store_table.store_id';
     }
 
     /**

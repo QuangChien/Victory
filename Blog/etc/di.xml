@@ -7,6 +7,8 @@
 -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!--    Category-->
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
@@ -18,6 +20,36 @@
         <arguments>
             <argument name="mainTable" xsi:type="string">gv_blog_category</argument>
             <argument name="resourceModel" xsi:type="string">Victory\Blog\Model\ResourceModel\Category</argument>
+        </arguments>
+    </virtualType>
+
+    <!--    Post-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="blog_post_listing_data_source" xsi:type="string">Victory\Blog\Model\ResourceModel\Post\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Victory\Blog\Model\ResourceModel\Post\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">gv_blog_post</argument>
+            <argument name="resourceModel" xsi:type="string">Victory\Blog\Model\ResourceModel\Post</argument>
+        </arguments>
+    </virtualType>
+
+    <!--    Comment-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="blog_comment_listing_data_source" xsi:type="string">Victory\Blog\Model\ResourceModel\Comment\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Victory\Blog\Model\ResourceModel\Comment\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">gv_blog_comment</argument>
+            <argument name="resourceModel" xsi:type="string">Victory\Blog\Model\ResourceModel\Comment</argument>
         </arguments>
     </virtualType>
 </config>

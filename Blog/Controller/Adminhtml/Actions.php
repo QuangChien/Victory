@@ -217,7 +217,7 @@ abstract class Actions extends Action
 
     /**
      * Retrieve model name
-     * @param  boolean $plural
+     * @param boolean $plural
      * @return string
      */
     protected function _getModelName(\Magento\Framework\Model\AbstractModel $model)
@@ -235,5 +235,138 @@ abstract class Actions extends Action
             $this->_coreRegistry = $this->_objectManager->get(\Magento\Framework\Registry::class);
         }
         return $this->_coreRegistry;
+    }
+
+    /**
+     * Save action
+     * @return void
+     */
+    public function saveAction()
+    {
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            $this->getResponse()->setRedirect($this->getUrl('*/*'));
+        }
+        $model = $this->_getModel();
+
+        try {
+            $params = $this->_paramsHolder ? $request->getParam($this->_paramsHolder) : $request->getParams();
+            $params = $this->filterParams($params);
+
+            $idFieldName = $model->getResource()->getIdFieldName();
+            if (isset($params[$idFieldName]) && empty($params[$idFieldName])) {
+                unset($params[$idFieldName]);
+            }
+            $model->addData($params);
+            $this->_beforeSave($model, $request);
+            $model->save();
+            $this->_afterSave($model, $request);
+
+            $this->messageManager->addSuccess(__('%1 has been saved.', $model->getOwnTitle()));
+//            $this->_setFormData(false);
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            $this->messageManager->addError(nl2br($e->getMessage()));
+//            $this->_setFormData($params);
+        } catch (\Exception $e) {
+            $this->messageManager->addException(
+                $e,
+                __(
+                    'Something went wrong while saving this %1. %2',
+                    strtolower($model->getOwnTitle()),
+                    $e->getMessage()
+                )
+            );
+//            $this->_setFormData($params);
+        }
+
+        $hasError = (bool)$this->messageManager->getMessages()->getCountByType(
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
+        );
+
+        if ($request->getParam('isAjax')) {
+            $block = $this->_objectManager->create(\Magento\Framework\View\Layout::class)->getMessagesBlock();
+            $block->setMessages($this->messageManager->getMessages(true));
+
+            $this->getResponse()->setBody(json_encode(
+                [
+                    'messages' => $block->getGroupedHtml(),
+                    'error' => $hasError,
+                    'model' => $model->toArray(),
+                ]
+            ));
+        } else {
+            if ($hasError || $request->getParam('back')) {
+                $this->_redirect('*/*/edit', [$this->_idKey => $model->getId()]);
+            } else {
+                $this->_redirect('*/*');
+            }
+        }
+    }
+
+    /**
+     * Before model Save action
+     * @return void
+     */
+    protected function _beforeSave($model, $request)
+    {
+    }
+
+    /**
+     * After model action
+     * @return void
+     */
+    protected function _afterSave($model, $request)
+    {
+    }
+
+    /**
+     * Filter request params
+     * @param  array $data
+     * @return array
+     */
+    protected function filterParams($data)
+    {
+        return $data;
+    }
+
+    /**
+     * Delete action
+     * @return void
+     */
+    protected function deleteAction()
+    {
+        $ids = $this->getRequest()->getParam($this->_idKey);
+
+        if (!is_array($ids)) {
+            $ids = [$ids];
+        }
+
+        $error = false;
+        try {
+            foreach ($ids as $id) {
+                $this->_objectManager->create($this->_modelClass)->load($id)->delete();
+            }
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            $error = true;
+            $this->messageManager->addError($e->getMessage());
+        } catch (\Exception $e) {
+            $error = true;
+            $this->messageManager->addException(
+                $e,
+                __(
+                    "We can't delete %1 right now. %2",
+                    strtolower($this->_getModel(false)->getOwnTitle()),
+                    $e->getMessage()
+                )
+            );
+        }
+
+        if (!$error) {
+            $this->messageManager->addSuccess(
+                __('%1 have been deleted.', $this->_getModel(false)->getOwnTitle(count($ids) > 1))
+            );
+        }
+
+        $this->_redirect('*/*');
     }
 }
