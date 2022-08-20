@@ -9,25 +9,48 @@ namespace Victory\Blog\Ui\Component\Listing\Columns;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\User\Model\ResourceModel\User\CollectionFactory as UserCollectionFactory;
 
 /**
- * Categories Status
+ * AuthorType
  */
-class Status extends \Magento\Ui\Component\Listing\Columns\Column
+class AuthorType extends \Magento\Ui\Component\Listing\Columns\Column
 {
+    /**
+     * @const string
+     */
+    const GUEST = 0;
+
+    /**
+     * @const string
+     */
+    const CUSTOMER = 1;
+
+    /**
+     * @const string
+     */
+    const ADMIN = 2;
+
     /**
      * @var StoreManagerInterface
      */
     protected $storeManager;
+
+    /**
+     * @var UserCollectionFactory
+     */
+    protected $_userFactory;
 
     public function __construct(
         ContextInterface      $context,
         UiComponentFactory    $uiComponentFactory,
         StoreManagerInterface $storeManager,
         array                 $components = [],
-        array                 $data = []
+        array                 $data = [],
+        UserCollectionFactory $userFactory
     )
     {
+        $this->_userFactory = $userFactory;
         $this->storeManager = $storeManager;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
@@ -41,10 +64,18 @@ class Status extends \Magento\Ui\Component\Listing\Columns\Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 if ($item) {
-                    $item['is_active'] = ($item['is_active'] == 1 ? __('Enable') : __('Disable'));
+                    if($item['author_type'] == self::GUEST) {
+                        $item['author_type'] = __('Guest');
+                    } elseif ($item['author_type'] == self::CUSTOMER){
+                        $item['author_type'] = __('Customer');
+                    }elseif ($item['author_type'] == self::ADMIN) {
+                        $item['author_type'] = __('Admin');
+                    }
                 }
             }
         }
+//        echo "<pre>";
+//        print_r($dataSource); die();
         return $dataSource;
     }
 }

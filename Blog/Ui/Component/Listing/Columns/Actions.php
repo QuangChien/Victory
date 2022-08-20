@@ -22,7 +22,7 @@ abstract class Actions extends Column
     protected $_controllerName;
 
     /**
-     * Category primary
+     * Categories primary
      *
      * @var string
      */

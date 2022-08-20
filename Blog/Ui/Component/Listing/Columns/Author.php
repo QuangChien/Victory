@@ -12,7 +12,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\User\Model\ResourceModel\User\CollectionFactory as UserCollectionFactory;
 
 /**
- * Category Status
+ * Categories Status
  */
 class Author extends \Magento\Ui\Component\Listing\Columns\Column
 {

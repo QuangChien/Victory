@@ -9,6 +9,7 @@ namespace Victory\Blog\Controller\Adminhtml;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Backend\App\Action;
+use Magento\Ui\Component\MassAction\Filter;
 
 /**
  * Abstract admin controller
@@ -32,6 +33,12 @@ abstract class Actions extends Action
      * @var string
      */
     protected $_modelClass;
+
+    /**
+     * Collection class name
+     * @var string
+     */
+    protected $_collectionClass;
 
     /**
      * Active menu key
@@ -83,15 +90,22 @@ abstract class Actions extends Action
     protected $dataPersistor;
 
     /**
+     * @var Filter
+     */
+    private $_filter;
+
+    /**
      * @param Action\Context $context
      * @param DataPersistorInterface $dataPersistor
      */
     public function __construct(
         Context                $context,
-        DataPersistorInterface $dataPersistor
+        DataPersistorInterface $dataPersistor,
+        Filter                 $filter
     )
     {
         $this->dataPersistor = $dataPersistor;
+        $this->_filter = $filter;
         parent::__construct($context);
     }
 
@@ -100,7 +114,7 @@ abstract class Actions extends Action
      */
     public function execute()
     {
-        $allActions = ['index', 'grid', 'add', 'edit', 'save', 'duplicate', 'delete', 'config', 'massStatus'];
+        $allActions = ['index', 'add', 'edit', 'save', 'delete', 'massStatus'];
         $_action = $this->getRequest()->getActionName();
         if (in_array($_action, $allActions)) {
             $method = $_action . 'Action';
@@ -119,17 +133,12 @@ abstract class Actions extends Action
     }
 
     /**
-     * Category listing
+     * Categories listing
      *
      * @return void
      */
     protected function indexAction()
     {
-        if ($this->getRequest()->getParam('ajax')) {
-            $this->_forward('grid');
-            return;
-        }
-
         $this->_view->loadLayout();
         $this->_setActiveMenu($this->_activeMenu);
         $title = __('Manage %1', $this->_getModel(false)->getOwnTitle(true));
@@ -263,10 +272,8 @@ abstract class Actions extends Action
             $this->_afterSave($model, $request);
 
             $this->messageManager->addSuccess(__('%1 has been saved.', $model->getOwnTitle()));
-//            $this->_setFormData(false);
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addError(nl2br($e->getMessage()));
-//            $this->_setFormData($params);
         } catch (\Exception $e) {
             $this->messageManager->addException(
                 $e,
@@ -276,30 +283,16 @@ abstract class Actions extends Action
                     $e->getMessage()
                 )
             );
-//            $this->_setFormData($params);
         }
 
         $hasError = (bool)$this->messageManager->getMessages()->getCountByType(
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
 
-        if ($request->getParam('isAjax')) {
-            $block = $this->_objectManager->create(\Magento\Framework\View\Layout::class)->getMessagesBlock();
-            $block->setMessages($this->messageManager->getMessages(true));
-
-            $this->getResponse()->setBody(json_encode(
-                [
-                    'messages' => $block->getGroupedHtml(),
-                    'error' => $hasError,
-                    'model' => $model->toArray(),
-                ]
-            ));
+        if ($hasError || $request->getParam('back')) {
+            $this->_redirect('*/*/edit', [$this->_idKey => $model->getId()]);
         } else {
-            if ($hasError || $request->getParam('back')) {
-                $this->_redirect('*/*/edit', [$this->_idKey => $model->getId()]);
-            } else {
-                $this->_redirect('*/*');
-            }
+            $this->_redirect('*/*');
         }
     }
 
@@ -321,7 +314,7 @@ abstract class Actions extends Action
 
     /**
      * Filter request params
-     * @param  array $data
+     * @param array $data
      * @return array
      */
     protected function filterParams($data)
@@ -335,10 +328,10 @@ abstract class Actions extends Action
      */
     protected function deleteAction()
     {
-        $ids = $this->getRequest()->getParam($this->_idKey);
-
-        if (!is_array($ids)) {
-            $ids = [$ids];
+        $ids = (array)$this->getRequest()->getParam($this->_idKey);
+        if(!$ids) {
+            $collection = $this->_filter->getCollection($this->_objectManager->create($this->_collectionClass));
+            $ids = $collection->getAllIds();
         }
 
         $error = false;
@@ -364,6 +357,61 @@ abstract class Actions extends Action
         if (!$error) {
             $this->messageManager->addSuccess(
                 __('%1 have been deleted.', $this->_getModel(false)->getOwnTitle(count($ids) > 1))
+            );
+        }
+
+        $this->_redirect('*/*');
+    }
+
+    /**
+     * Change status action
+     * @return void
+     */
+    protected function massStatusAction()
+    {
+        $collection = $this->_filter->getCollection($this->_objectManager->create($this->_collectionClass));
+        $ids = $collection->getAllIds();
+
+        $model = $this->_getModel(false);
+
+        $error = false;
+
+        try {
+            $status = $this->getRequest()->getParam('status');
+            $statusFieldName = $this->_statusField;
+
+            if (is_null($ids)) {
+                throw new \Exception(__('Parameter "Status" missing in request data.'));
+            }
+
+            if (is_null($statusFieldName)) {
+                throw new \Exception(__('Status Field Name is not specified.'));
+            }
+
+            foreach ($ids as $id) {
+                $this->_objectManager->create($this->_modelClass)
+                    ->load($id)
+                    ->setData($this->_statusField, $status)
+                    ->save();
+            }
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            $error = true;
+            $this->messageManager->addError($e->getMessage());
+        } catch (\Exception $e) {
+            $error = true;
+            $this->messageManager->addException(
+                $e,
+                __(
+                    "We can't change status of %1 right now. %2",
+                    strtolower($model->getOwnTitle()),
+                    $e->getMessage()
+                )
+            );
+        }
+
+        if (!$error) {
+            $this->messageManager->addSuccess(
+                __('%1 status have been changed.', $model->getOwnTitle(count($ids) > 1))
             );
         }
 

@@ -30,6 +30,12 @@ class Category extends Actions
     protected $_modelClass = \Victory\Blog\Model\Category::class;
 
     /**
+     * Collection class name
+     * @var string
+     */
+    protected $_collectionClass = \Victory\Blog\Model\ResourceModel\Category\Collection::class;
+
+    /**
      * Active menu key
      * @var string
      */

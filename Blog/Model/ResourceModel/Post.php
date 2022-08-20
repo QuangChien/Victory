@@ -11,7 +11,7 @@ use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 
 /**
- * Category ResourceModel
+ * Categories ResourceModel
  */
 class Post extends AbstractDb
 {

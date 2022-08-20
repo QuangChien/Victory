@@ -19,7 +19,7 @@ class CategoryAction extends Actions
     protected $_controllerName = 'category';
 
     /**
-     * Category table primary
+     * Categories table primary
      *
      * @var string
      */

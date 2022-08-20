@@ -203,11 +203,15 @@
                 </item>
             </argument>
         </field>
+
         <field name="publish_time">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Publish Date</item>
-                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="options" xsi:type="array">
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="dataType" xsi:type="string">datetime</item>
                     <item name="formElement" xsi:type="string">date</item>
                     <item name="source" xsi:type="string">post</item>
                     <item name="dataScope" xsi:type="string">publish_time</item>

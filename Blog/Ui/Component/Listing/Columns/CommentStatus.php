@@ -8,29 +8,28 @@ namespace Victory\Blog\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
- * Categories Status
+ * AuthorType
  */
-class Status extends \Magento\Ui\Component\Listing\Columns\Column
+class CommentStatus extends Column
 {
     /**
-     * @var StoreManagerInterface
+     * @const string
      */
-    protected $storeManager;
+    const PENDING = 0;
 
-    public function __construct(
-        ContextInterface      $context,
-        UiComponentFactory    $uiComponentFactory,
-        StoreManagerInterface $storeManager,
-        array                 $components = [],
-        array                 $data = []
-    )
-    {
-        $this->storeManager = $storeManager;
-        parent::__construct($context, $uiComponentFactory, $components, $data);
-    }
+    /**
+     * @const int
+     */
+    const APPROVED = 1;
+
+    /**
+     * @const int
+     */
+    const NOT_APPROVED = 2;
+
 
     /**
      * @param array $dataSource
@@ -41,10 +40,18 @@ class Status extends \Magento\Ui\Component\Listing\Columns\Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 if ($item) {
-                    $item['is_active'] = ($item['is_active'] == 1 ? __('Enable') : __('Disable'));
+                    if($item['status'] == self::PENDING) {
+                        $item['status'] = __('Pending');
+                    } elseif ($item['status'] == self::APPROVED){
+                        $item['status'] = __('Approved');
+                    }elseif ($item['status'] == self::NOT_APPROVED) {
+                        $item['status'] = __('Not Approved');
+                    }
                 }
             }
         }
+//        echo "<pre>";
+//        print_r($dataSource); die();
         return $dataSource;
     }
 }

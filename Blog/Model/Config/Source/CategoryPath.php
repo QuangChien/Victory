@@ -7,7 +7,7 @@
 namespace Victory\Blog\Model\Config\Source;
 
 /**
- * Category Tree
+ * Categories Tree
  *
  */
 class CategoryPath extends CategoryTree

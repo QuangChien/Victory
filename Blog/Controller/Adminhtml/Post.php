@@ -32,6 +32,12 @@ class Post extends Actions
     protected $_modelClass = \Victory\Blog\Model\Post::class;
 
     /**
+     * Collection class name
+     * @var string
+     */
+    protected $_collectionClass = \Victory\Blog\Model\ResourceModel\Post\Collection::class;
+
+    /**
      * Active menu key
      * @var string
      */

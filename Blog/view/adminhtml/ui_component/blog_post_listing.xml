@@ -46,6 +46,28 @@
                     </item>
                 </argument>
             </action>
+            <action name="status">
+                <settings>
+                    <type>status</type>
+                    <label translate="true">Change status</label>
+                    <actions>
+                        <action name="0">
+                            <type>enable</type>
+                            <label translate="true">Enable</label>
+                            <url path="blog/post/massStatus">
+                                <param name="status">1</param>
+                            </url>
+                        </action>
+                        <action name="1">
+                            <type>disable</type>
+                            <label translate="true">Disable</label>
+                            <url path="blog/post/massStatus">
+                                <param name="status">0</param>
+                            </url>
+                        </action>
+                    </actions>
+                </settings>
+            </action>
         </massaction>
 
         <paging name="listing_paging"/>
@@ -139,7 +161,7 @@
             </argument>
         </column>
 
-<!--        <column name="category_id" class="Victory\Blog\Ui\Component\Listing\Columns\Category">-->
+<!--        <column name="category_id" class="Victory\Blog\Ui\Component\Listing\Columns\Categories">-->
 <!--            <argument name="data" xsi:type="array">-->
 <!--                <item name="config" xsi:type="array">-->
 <!--                    <item name="sortOrder" xsi:type="number">30</item>-->
@@ -150,7 +172,7 @@
 <!--                            <item name="required-entry" xsi:type="boolean">true</item>-->
 <!--                        </item>-->
 <!--                    </item>-->
-<!--                    <item name="label" xsi:type="string" translate="true">Category</item>-->
+<!--                    <item name="label" xsi:type="string" translate="true">Categories</item>-->
 <!--                </item>-->
 <!--            </argument>-->
 <!--        </column>-->
@@ -169,6 +191,30 @@
                     <item name="label" xsi:type="string" translate="true">Author</item>
                 </item>
             </argument>
+        </column>
+
+        <column name="categories" class="Victory\Blog\Ui\Component\Listing\Columns\Categories">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">45</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Categories</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="stores_view" class="Victory\Blog\Ui\Component\Listing\Columns\Store" sortOrder="50">
+            <settings>
+                <label translate="true">Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
         </column>
 
         <column name="update_time">

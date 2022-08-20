@@ -46,6 +46,36 @@
                     </item>
                 </argument>
             </action>
+
+            <action name="status">
+                <settings>
+                    <type>status</type>
+                    <label translate="true">Change status</label>
+                    <actions>
+                        <action name="0">
+                            <type>enable</type>
+                            <label translate="true">Pending</label>
+                            <url path="blog/comment/massStatus">
+                                <param name="status">0</param>
+                            </url>
+                        </action>
+                        <action name="1">
+                            <type>disable</type>
+                            <label translate="true">Approved</label>
+                            <url path="blog/comment/massStatus">
+                                <param name="status">1</param>
+                            </url>
+                        </action>
+                        <action name="2">
+                            <type>disable</type>
+                            <label translate="true">Not Approved</label>
+                            <url path="blog/comment/massStatus">
+                                <param name="status">2</param>
+                            </url>
+                        </action>
+                    </actions>
+                </settings>
+            </action>
         </massaction>
 
         <paging name="listing_paging"/>
@@ -107,46 +137,104 @@
             </argument>
         </column>
 
-<!--        <column name="url_key">-->
-<!--            <argument name="data" xsi:type="array">-->
-<!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="sortOrder" xsi:type="number">20</item>-->
-<!--                    <item name="enabled" xsi:type="boolean">false</item>-->
-<!--                    <item name="filter" xsi:type="string">text</item>-->
-<!--                    <item name="editor" xsi:type="array">-->
-<!--                        <item name="editorType" xsi:type="string">text</item>-->
-<!--                        <item name="validation" xsi:type="array">-->
-<!--                            <item name="required-entry" xsi:type="boolean">true</item>-->
-<!--                        </item>-->
-<!--                    </item>-->
-<!--                    <item name="label" xsi:type="string" translate="true">Url Key</item>-->
-<!--                </item>-->
-<!--            </argument>-->
-<!--        </column>-->
+        <column name="content">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="enabled" xsi:type="boolean">true</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Content</item>
+                </item>
+            </argument>
+        </column>
 
-<!--        &lt;!&ndash;        <column name="stores_view" class="Victory\Blog\Ui\Component\Listing\Columns\Store" sortOrder="30">&ndash;&gt;-->
-<!--        &lt;!&ndash;            <settings>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <label translate="true">Store View</label>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <bodyTmpl>ui/grid/cells/html</bodyTmpl>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <sortable>true</sortable>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </settings>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </column>&ndash;&gt;-->
+        <column name="post_id" class="Victory\Blog\Ui\Component\Listing\Columns\Post">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">50</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Post</item>
+                </item>
+            </argument>
+        </column>
 
-<!--        <column name="is_active" class="Victory\Blog\Ui\Component\Listing\Columns\Status">-->
-<!--            <argument name="data" xsi:type="array">-->
-<!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="sortOrder" xsi:type="number">80</item>-->
-<!--                    <item name="filter" xsi:type="string">text</item>-->
-<!--                    <item name="editor" xsi:type="array">-->
-<!--                        <item name="editorType" xsi:type="string">text</item>-->
-<!--                        <item name="validation" xsi:type="array">-->
-<!--                            <item name="required-entry" xsi:type="boolean">true</item>-->
-<!--                        </item>-->
-<!--                    </item>-->
-<!--                    <item name="label" xsi:type="string" translate="true">Status</item>-->
-<!--                </item>-->
-<!--            </argument>-->
-<!--        </column>-->
+        <column name="author_type" class="Victory\Blog\Ui\Component\Listing\Columns\AuthorType">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">60</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Author Type</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="status" class="Victory\Blog\Ui\Component\Listing\Columns\CommentStatus">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">65</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="creation_time">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">70</item>
+                    <item name="enabled" xsi:type="boolean">false</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Published</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="update_time">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">80</item>
+                    <item name="enabled" xsi:type="boolean">false</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Modified</item>
+                </item>
+            </argument>
+        </column>
 
         <actionsColumn name="actions" class="Victory\Blog\Ui\Component\Listing\Columns\CommentAction" sortOrder="190">
             <settings>

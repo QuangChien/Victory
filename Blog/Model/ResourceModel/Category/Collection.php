@@ -9,7 +9,7 @@ namespace Victory\Blog\Model\ResourceModel\Category;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
 /**
- * Category collection
+ * Categories collection
  */
 class Collection extends AbstractCollection
 {

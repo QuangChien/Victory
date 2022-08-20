@@ -54,6 +54,28 @@
                     </item>
                 </argument>
             </action>
+            <action name="status">
+                <settings>
+                    <type>status</type>
+                    <label translate="true">Change status</label>
+                    <actions>
+                        <action name="0">
+                            <type>enable</type>
+                            <label translate="true">Enable</label>
+                            <url path="blog/category/massStatus">
+                                <param name="status">1</param>
+                            </url>
+                        </action>
+                        <action name="1">
+                            <type>disable</type>
+                            <label translate="true">Disable</label>
+                            <url path="blog/category/massStatus">
+                                <param name="status">0</param>
+                            </url>
+                        </action>
+                    </actions>
+                </settings>
+            </action>
         </massaction>
 
         <paging name="listing_paging"/>
@@ -132,13 +154,13 @@
             </argument>
         </column>
 
-<!--        <column name="stores_view" class="Victory\Blog\Ui\Component\Listing\Columns\Store" sortOrder="30">-->
-<!--            <settings>-->
-<!--                <label translate="true">Store View</label>-->
-<!--                <bodyTmpl>ui/grid/cells/html</bodyTmpl>-->
-<!--                <sortable>true</sortable>-->
-<!--            </settings>-->
-<!--        </column>-->
+        <column name="stores_view" class="Victory\Blog\Ui\Component\Listing\Columns\Store" sortOrder="30">
+            <settings>
+                <label translate="true">Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
 
         <column name="is_active" class="Victory\Blog\Ui\Component\Listing\Columns\Status">
             <argument name="data" xsi:type="array">

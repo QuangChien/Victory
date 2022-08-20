@@ -9,25 +9,33 @@ namespace Victory\Blog\Ui\Component\Listing\Columns;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Victory\Blog\Model\PostFactory;
 
 /**
- * Category Status
+ * Get Post in Grid
  */
-class Category extends \Magento\Ui\Component\Listing\Columns\Column
+class Post extends \Magento\Ui\Component\Listing\Columns\Column
 {
     /**
      * @var StoreManagerInterface
      */
     protected $storeManager;
 
+    /**
+     * @var UserCollectionFactory
+     */
+    protected $postFactory;
+
     public function __construct(
         ContextInterface      $context,
         UiComponentFactory    $uiComponentFactory,
         StoreManagerInterface $storeManager,
         array                 $components = [],
-        array                 $data = []
+        array                 $data = [],
+        PostFactory $postFactory
     )
     {
+        $this->postFactory = $postFactory;
         $this->storeManager = $storeManager;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
@@ -38,15 +46,15 @@ class Category extends \Magento\Ui\Component\Listing\Columns\Column
      */
     public function prepareDataSource(array $dataSource)
     {
-//
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 if ($item) {
-                    $item['category_id'] = $this->getAuthor($item['author_id']);
+                    $item['post_id'] = $this->getPostTitle($item['post_id']);
                 }
             }
         }
-
+//        echo "<pre>";
+//        print_r($dataSource); die();
         return $dataSource;
     }
 
@@ -54,14 +62,11 @@ class Category extends \Magento\Ui\Component\Listing\Columns\Column
      * @param $authorId
      * @return string|null
      */
-    public function getCategory($authorId)
+    public function getPostTitle($postId)
     {
-        $adminUsers = $this->_userFactory->create();
-        foreach($adminUsers as $adminUser) {
-            if($adminUser->getUserId() == $authorId) {
-                return (string)$adminUser->getUsername();
-                break;
-            }
+        $post = $this->postFactory->create()->load($postId);
+        if($post) {
+            return $post->getTitle();
         }
         return null;
     }

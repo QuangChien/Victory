@@ -10,7 +10,7 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
 
 /**
- * Category ResourceModel
+ * Categories ResourceModel
  */
 class Category extends AbstractDb
 {

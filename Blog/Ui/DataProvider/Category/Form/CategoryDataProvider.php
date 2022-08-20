@@ -15,7 +15,7 @@ use Magento\Framework\App\Request\DataPersistorInterface;
 class CategoryDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
     /**
-     * @var \Magefan\Blog\Model\ResourceModel\Category\Collection
+     * @var \Victory\Blog\Model\ResourceModel\Category\Collection
      */
     protected $collection;
 

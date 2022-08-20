@@ -30,6 +30,12 @@ class Comment extends Actions
     protected $_modelClass = \Victory\Blog\Model\Comment::class;
 
     /**
+     * Collection class name
+     * @var string
+     */
+    protected $_collectionClass = \Victory\Blog\Model\ResourceModel\Comment\Collection::class;
+
+    /**
      * Active menu key
      * @var string
      */
