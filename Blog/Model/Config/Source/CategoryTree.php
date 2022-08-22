@@ -8,6 +8,7 @@ namespace Victory\Blog\Model\Config\Source;
 
 use Magento\Framework\Option\ArrayInterface;
 use Victory\Blog\Model\ResourceModel\Category\CollectionFactory;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * CategoryTree
@@ -31,15 +32,22 @@ class CategoryTree implements ArrayInterface
     protected $_childs;
 
     /**
+     * @var RequestInterface
+     */
+    protected $_request;
+
+    /**
      * Initialize dependencies.
      *
      * @param CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        CollectionFactory $categoryCollectionFactory
+        CollectionFactory $categoryCollectionFactory,
+        RequestInterface  $request
     )
     {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
+        $this->_request = $request;
     }
 
     /**
@@ -72,6 +80,7 @@ class CategoryTree implements ArrayInterface
                 }
 
                 $options[] = $data;
+
             }
         }
 

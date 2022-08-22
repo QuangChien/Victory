@@ -5,6 +5,7 @@
  */
 
 namespace Victory\Blog\Model\Config\Source;
+
 use Magento\Framework\Option\ArrayInterface;
 
 /**

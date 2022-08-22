@@ -21,6 +21,9 @@ class FeaturedImg extends Upload
      */
     protected $_fileKey = 'featured_img';
 
+    /**
+     * execute function
+     */
     public function execute()
     {
         try {

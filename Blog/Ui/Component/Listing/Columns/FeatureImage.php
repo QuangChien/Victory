@@ -12,25 +12,49 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Ui\Component\Listing\Columns\Column;
+use Magento\Framework\View\Asset\Repository;
 
 /**
  * FeatureImage class
  */
 class FeatureImage extends Column
 {
+    /**
+     * folder feature image
+     */
+    const PATH_FOLDER_IMAGE = 'catalog/tmp/category/';
+
+    /**
+     * @var StoreManagerInterface
+     */
     protected $storeManager;
+
+    /**
+     * @var Repository
+     */
     protected $moduleAssetDir;
 
+    /**
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param Image $imageHelper
+     * @param UrlInterface $urlBuilder
+     * @param StoreManagerInterface $storeManager
+     * @param array $components
+     * @param array $data
+     * @param Repository $moduleAssetDir
+     */
     public function __construct(
-        ContextInterface $context,
-        UiComponentFactory $uiComponentFactory,
-        Image $imageHelper,
-        UrlInterface $urlBuilder,
+        ContextInterface      $context,
+        UiComponentFactory    $uiComponentFactory,
+        Image                 $imageHelper,
+        UrlInterface          $urlBuilder,
         StoreManagerInterface $storeManager,
-        array $components = [],
-        array $data = [],
-        \Magento\Framework\View\Asset\Repository $moduleAssetDir
-    ) {
+        array                 $components = [],
+        array                 $data = [],
+        Repository            $moduleAssetDir
+    )
+    {
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
         $this->urlBuilder = $urlBuilder;
@@ -45,17 +69,17 @@ class FeatureImage extends Column
      */
     public function prepareDataSource(array $dataSource)
     {
-        if(isset($dataSource['data']['items'])) {
+        if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
-            foreach($dataSource['data']['items'] as & $item) {
+            foreach ($dataSource['data']['items'] as & $item) {
                 $url = '';
-                if(!is_null($item[$fieldName])) {
+                if (!is_null($item[$fieldName])) {
                     /* Set your image physical path here */
                     $url = $this->storeManager->getStore()->getBaseUrl(
                             \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
-                        ). "catalog/tmp/category/" . $item[$fieldName];
-                }else{
-                    $url = $this->moduleAssetDir->getUrl("Victory_Blog::images/avatar-default.png");
+                        ) . self::PATH_FOLDER_IMAGE . $item[$fieldName];
+                } else {
+                    $url = $this->moduleAssetDir->getUrl("Victory_Blog::images/default.jpg");
                 }
                 $item[$fieldName . '_src'] = $url;
                 $item[$fieldName . '_alt'] = $item[$fieldName];
@@ -64,9 +88,6 @@ class FeatureImage extends Column
             }
         }
 
-//        echo "<pre>";
-//        print_r($dataSource['data']['items']);
-//        echo $url; die();
         return $dataSource;
     }
 }

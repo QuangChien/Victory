@@ -9,7 +9,7 @@ namespace Victory\Blog\Controller\Adminhtml\Post;
 use Victory\Blog\Controller\Adminhtml\Post;
 
 /**
- * Blog post edit
+ * Blog post add
  */
 class Add extends Post
 {

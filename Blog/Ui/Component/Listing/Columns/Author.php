@@ -8,35 +8,35 @@ namespace Victory\Blog\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\User\Model\ResourceModel\User\CollectionFactory as UserCollectionFactory;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
- * Categories Status
+ * Author Status
  */
-class Author extends \Magento\Ui\Component\Listing\Columns\Column
+class Author extends Column
 {
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
     /**
      * @var UserCollectionFactory
      */
     protected $_userFactory;
 
+    /**
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param array $components
+     * @param array $data
+     * @param UserCollectionFactory $userFactory
+     */
     public function __construct(
         ContextInterface      $context,
         UiComponentFactory    $uiComponentFactory,
-        StoreManagerInterface $storeManager,
         array                 $components = [],
         array                 $data = [],
         UserCollectionFactory $userFactory
     )
     {
         $this->_userFactory = $userFactory;
-        $this->storeManager = $storeManager;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
@@ -53,8 +53,7 @@ class Author extends \Magento\Ui\Component\Listing\Columns\Column
                 }
             }
         }
-//        echo "<pre>";
-//        print_r($dataSource); die();
+
         return $dataSource;
     }
 
@@ -65,8 +64,8 @@ class Author extends \Magento\Ui\Component\Listing\Columns\Column
     public function getAuthor($authorId)
     {
         $adminUsers = $this->_userFactory->create();
-        foreach($adminUsers as $adminUser) {
-            if($adminUser->getUserId() == $authorId) {
+        foreach ($adminUsers as $adminUser) {
+            if ($adminUser->getUserId() == $authorId) {
                 return (string)$adminUser->getUsername();
                 break;
             }

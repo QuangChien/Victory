@@ -10,7 +10,7 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
 
 /**
- * Categories ResourceModel
+ * Category ResourceModel
  */
 class Category extends AbstractDb
 {
@@ -127,7 +127,7 @@ class Category extends AbstractDb
     }
 
     /**
-     * Check if category identifier exist for specific store
+     * Check if category url key exist for specific store
      * return category id if category exists
      *
      * @param string $urlKey
@@ -162,9 +162,9 @@ class Category extends AbstractDb
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
-        $identifierGenerator = \Magento\Framework\App\ObjectManager::getInstance()
+        $urlKeyGenerator = \Magento\Framework\App\ObjectManager::getInstance()
             ->create(\Victory\Blog\Model\ResourceModel\PageUrlKeyGenerator::class);
-        $identifierGenerator->generate($object, 'name');
+        $urlKeyGenerator->generate($object, 'name');
 
         if (!$this->isValidPageUrlKey($object)) {
             throw new \Magento\Framework\Exception\LocalizedException(
@@ -228,6 +228,23 @@ class Category extends AbstractDb
     protected function isNumericPageUrlKey(\Magento\Framework\Model\AbstractModel $object)
     {
         return preg_match('/^[0-9]+$/', $object->getData('url_key'));
+    }
+
+    /**
+     * Load an object using 'url-key' field if there's no field specified and value is not numeric
+     *
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param mixed $value
+     * @param string $field
+     * @return $this
+     */
+    public function load(\Magento\Framework\Model\AbstractModel $object, $value, $field = null)
+    {
+        if (!is_numeric($value) && null === $field) {
+            $field = 'url_key';
+        }
+
+        return parent::load($object, $value, $field);
     }
 
 }

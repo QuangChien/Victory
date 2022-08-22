@@ -122,7 +122,7 @@ class Comment extends AbstractModel implements IdentityInterface
 
     /**
      * Retrieve author
-     * @return \\Magento\Framework\DataObject
+     * @return \Magento\Framework\DataObject
      */
     public function getAuthor()
     {

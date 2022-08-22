@@ -7,16 +7,10 @@
 namespace Victory\Blog\Controller\Adminhtml;
 
 /**
- * Admin blog category edit controller
+ * Admin blog category controller
  */
 class Category extends Actions
 {
-    /**
-     * Form session key
-     * @var string
-     */
-    protected $_formSessionKey = 'blog_category_form_data';
-
     /**
      * Allowed Key
      * @var string

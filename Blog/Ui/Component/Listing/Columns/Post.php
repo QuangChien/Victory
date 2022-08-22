@@ -8,35 +8,35 @@ namespace Victory\Blog\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Victory\Blog\Model\PostFactory;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
  * Get Post in Grid
  */
-class Post extends \Magento\Ui\Component\Listing\Columns\Column
+class Post extends Column
 {
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
     /**
      * @var UserCollectionFactory
      */
     protected $postFactory;
 
+    /**
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param array $components
+     * @param array $data
+     * @param PostFactory $postFactory
+     */
     public function __construct(
         ContextInterface      $context,
         UiComponentFactory    $uiComponentFactory,
-        StoreManagerInterface $storeManager,
         array                 $components = [],
         array                 $data = [],
-        PostFactory $postFactory
+        PostFactory           $postFactory
     )
     {
         $this->postFactory = $postFactory;
-        $this->storeManager = $storeManager;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
@@ -53,8 +53,7 @@ class Post extends \Magento\Ui\Component\Listing\Columns\Column
                 }
             }
         }
-//        echo "<pre>";
-//        print_r($dataSource); die();
+
         return $dataSource;
     }
 
@@ -65,7 +64,7 @@ class Post extends \Magento\Ui\Component\Listing\Columns\Column
     public function getPostTitle($postId)
     {
         $post = $this->postFactory->create()->load($postId);
-        if($post) {
+        if ($post) {
             return $post->getTitle();
         }
         return null;

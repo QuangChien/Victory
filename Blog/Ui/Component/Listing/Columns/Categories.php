@@ -10,11 +10,12 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Victory\Blog\Model\ResourceModel\Category\CollectionFactory;
 use Victory\Blog\Model\ResourceModel\PostFactory;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
  * Categories
  */
-class Categories extends \Magento\Ui\Component\Listing\Columns\Column
+class Categories extends Column
 {
     /**
      * @var CollectionFactory
@@ -31,6 +32,8 @@ class Categories extends \Magento\Ui\Component\Listing\Columns\Column
      * @param UiComponentFactory $uiComponentFactory
      * @param array $components
      * @param array $data
+     * @param CollectionFactory $collectionFactory
+     * @param PostFactory $_postResourceFactory
      */
     public function __construct(
         ContextInterface   $context,
@@ -81,11 +84,9 @@ class Categories extends \Magento\Ui\Component\Listing\Columns\Column
         $categories = [];
         $categoriesFilter = $this->_collectionFactory->create()
             ->addFieldToFilter('category_id', ['in' => $this->getCategoryIds($postId)]);
-//        echo "<pre>";
-//        print_r()
         foreach ($categoriesFilter as $category) {
             $categories[] = $category->getName();
         }
-        return (string) implode(', ', $categories);
+        return (string)implode(', ', $categories);
     }
 }

@@ -8,13 +8,13 @@ namespace Victory\Blog\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\User\Model\ResourceModel\User\CollectionFactory as UserCollectionFactory;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
- * AuthorType
+ * AuthorType class
  */
-class AuthorType extends \Magento\Ui\Component\Listing\Columns\Column
+class AuthorType extends Column
 {
     /**
      * @const string
@@ -32,26 +32,26 @@ class AuthorType extends \Magento\Ui\Component\Listing\Columns\Column
     const ADMIN = 2;
 
     /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @var UserCollectionFactory
      */
     protected $_userFactory;
 
+    /**
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param array $components
+     * @param array $data
+     * @param UserCollectionFactory $userFactory
+     */
     public function __construct(
         ContextInterface      $context,
         UiComponentFactory    $uiComponentFactory,
-        StoreManagerInterface $storeManager,
         array                 $components = [],
         array                 $data = [],
         UserCollectionFactory $userFactory
     )
     {
         $this->_userFactory = $userFactory;
-        $this->storeManager = $storeManager;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
@@ -64,18 +64,16 @@ class AuthorType extends \Magento\Ui\Component\Listing\Columns\Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 if ($item) {
-                    if($item['author_type'] == self::GUEST) {
+                    if ($item['author_type'] == self::GUEST) {
                         $item['author_type'] = __('Guest');
-                    } elseif ($item['author_type'] == self::CUSTOMER){
+                    } elseif ($item['author_type'] == self::CUSTOMER) {
                         $item['author_type'] = __('Customer');
-                    }elseif ($item['author_type'] == self::ADMIN) {
+                    } elseif ($item['author_type'] == self::ADMIN) {
                         $item['author_type'] = __('Admin');
                     }
                 }
             }
         }
-//        echo "<pre>";
-//        print_r($dataSource); die();
         return $dataSource;
     }
 }

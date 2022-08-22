@@ -7,7 +7,7 @@
 namespace Victory\Blog\Model\Config\Source;
 
 /**
- * Categories Tree
+ * Categories Path
  *
  */
 class CategoryPath extends CategoryTree
@@ -18,7 +18,7 @@ class CategoryPath extends CategoryTree
      */
     protected function _getOptions($itemId = 0)
     {
-        $childs =  $this->_getChilds();
+        $childs = $this->_getChilds();
         $options = [];
 
         if (!$itemId) {
@@ -30,16 +30,18 @@ class CategoryPath extends CategoryTree
 
         if (isset($childs[$itemId])) {
             foreach ($childs[$itemId] as $item) {
-                $data = [
-                    'label' => $item->getName() .
-                        ($item->getIsActive() ? '' : ' ('.__('Disabled').')'),
-                    'value' => ($item->getParentIds() ? $item->getPath().'/' : '') . $item->getId(),
-                ];
-                if (isset($childs[$item->getId()])) {
-                    $data['optgroup'] = $this->_getOptions($item->getId());
-                }
+                if ($item->getId() !== $this->_request->getParam('id')) {
+                    $data = [
+                        'label' => $item->getName() .
+                            ($item->getIsActive() ? '' : ' (' . __('Disabled') . ')'),
+                        'value' => ($item->getParentIds() ? $item->getPath() . '/' : '') . $item->getId(),
+                    ];
+                    if (isset($childs[$item->getId()])) {
+                        $data['optgroup'] = $this->_getOptions($item->getId());
+                    }
 
-                $options[] = $data;
+                    $options[] = $data;
+                }
             }
         }
         return $options;

@@ -31,7 +31,7 @@ class PostsSortBy implements ArrayInterface
      */
     public function toOptionArray()
     {
-        return  [
+        return [
             ['value' => self::PUBLISH_DATE, 'label' => __('Publish Date (default)')],
             ['value' => self::POSITION, 'label' => __('Position')]
         ];

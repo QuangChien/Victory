@@ -7,22 +7,17 @@
 namespace Victory\Blog\Ui\DataProvider\Category\Form;
 
 use Victory\Blog\Model\ResourceModel\Category\CollectionFactory;
-use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Ui\DataProvider\AbstractDataProvider;
 
 /**
- * Class DataProvider
+ * Class CategoryDataProvider
  */
-class CategoryDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+class CategoryDataProvider extends AbstractDataProvider
 {
     /**
-     * @var \Victory\Blog\Model\ResourceModel\Category\Collection
+     * @var CollectionFactory
      */
     protected $collection;
-
-    /**
-     * @var DataPersistorInterface
-     */
-    protected $dataPersistor;
 
     /**
      * @var array
@@ -30,11 +25,10 @@ class CategoryDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     protected $loadedData;
 
     /**
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
      * @param CollectionFactory $categoryCollectionFactory
-     * @param DataPersistorInterface $dataPersistor
      * @param array $meta
      * @param array $data
      */
@@ -43,13 +37,12 @@ class CategoryDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $primaryFieldName,
         $requestFieldName,
         CollectionFactory $categoryCollectionFactory,
-        DataPersistorInterface $dataPersistor,
         array $meta = [],
         array $data = []
-    ) {
-        $this->collection = $categoryCollectionFactory->create();
-        $this->dataPersistor = $dataPersistor;
+    )
+    {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        $this->collection = $categoryCollectionFactory->create();
         $this->meta = $this->prepareMeta($this->meta);
     }
 
@@ -79,14 +72,6 @@ class CategoryDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         foreach ($items as $category) {
             $category = $category->load($category->getId());
             $this->loadedData[$category->getId()] = $category->getData();
-        }
-
-        $data = $this->dataPersistor->get('blog_category_form_data');
-        if (!empty($data)) {
-            $category = $this->collection->getNewEmptyItem();
-            $category->setData($data);
-            $this->loadedData[$category->getId()] = $category->getData();
-            $this->dataPersistor->clear('blog_category_form_data');
         }
 
         return $this->loadedData;

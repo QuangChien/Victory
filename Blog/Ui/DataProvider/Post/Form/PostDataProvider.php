@@ -7,23 +7,23 @@
 namespace Victory\Blog\Ui\DataProvider\Post\Form;
 
 use Victory\Blog\Model\ResourceModel\Post\CollectionFactory;
-use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Ui\DataProvider\AbstractDataProvider;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Class DataProvider
+ * Class PostDataProvider
  */
 class PostDataProvider extends AbstractDataProvider
 {
     /**
-     * @var CollectionFactory
+     * folder feature image
      */
-    protected $collection;
+    const PATH_FOLDER_IMAGE = 'catalog/tmp/category/';
 
     /**
-     * @var DataPersistorInterface
+     * @var Collection
      */
-    protected $dataPersistor;
+    protected $collection;
 
     /**
      * @var array
@@ -31,27 +31,33 @@ class PostDataProvider extends AbstractDataProvider
     protected $loadedData;
 
     /**
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
+     * @var
+     */
+    protected $_storeManager;
+
+    /**
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
      * @param CollectionFactory $postCollectionFactory
-     * @param DataPersistorInterface $dataPersistor
      * @param array $meta
      * @param array $data
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         $name,
         $primaryFieldName,
         $requestFieldName,
         CollectionFactory $postCollectionFactory,
-        DataPersistorInterface $dataPersistor,
         array $meta = [],
-        array $data = []
-    ) {
-        $this->collection = $postCollectionFactory->create();
-        $this->dataPersistor = $dataPersistor;
+        array $data = [],
+        StoreManagerInterface $storeManager
+    )
+    {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        $this->collection = $postCollectionFactory->create();
         $this->meta = $this->prepareMeta($this->meta);
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -75,21 +81,31 @@ class PostDataProvider extends AbstractDataProvider
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
-        $items = $this->collection->getItems();
-        /** @var $category \Victory\Blog\Model\Category */
-        foreach ($items as $category) {
-            $category = $category->load($category->getId());
-            $this->loadedData[$category->getId()] = $category->getData();
-        }
+        $posts = $this->collection->getItems();
+        /** @var $post \Victory\Blog\Model\Post */
+        foreach ($posts as $post) {
+            $post = $post->load($post->getId());
+            $data = $post->getData();
 
-        $data = $this->dataPersistor->get('blog_category_form_data');
-        if (!empty($data)) {
-            $category = $this->collection->getNewEmptyItem();
-            $category->setData($data);
-            $this->loadedData[$category->getId()] = $category->getData();
-            $this->dataPersistor->clear('blog_category_form_data');
+            if ($post->getFeaturedImg()) {
+                $image['featured_img'][0]['name'] = $post->getFeaturedImg();
+                $image['featured_img'][0]['url'] = $this->getMediaUrl()
+                    . self::PATH_FOLDER_IMAGE . $post->getFeaturedImg();
+                $data = array_merge($data, $image);
+            }
+
+            $this->loadedData[$post->getId()] = $data;
         }
 
         return $this->loadedData;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMediaUrl()
+    {
+        return (string)$this->_storeManager->getStore()
+            ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
     }
 }

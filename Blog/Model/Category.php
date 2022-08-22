@@ -9,7 +9,7 @@ namespace Victory\Blog\Model;
 use Magento\Framework\Model\AbstractModel;
 
 /**
- * Categories Model
+ * Category Model
  */
 class Category extends AbstractModel
 {
@@ -25,7 +25,7 @@ class Category extends AbstractModel
 
     /**
      * Retrieve model title
-     * @param  boolean $plural
+     * @param boolean $plural
      * @return string
      */
     public function getOwnTitle($plural = false)
@@ -66,7 +66,7 @@ class Category extends AbstractModel
     }
 
     /**
-     * Check if category identifier exist for specific store
+     * Check if category url key exist for specific store
      * return category id if category exists
      *
      * @param string $urlKey
@@ -77,11 +77,4 @@ class Category extends AbstractModel
     {
         return $this->_getResource()->checkUrlKey($urlKey, $storeId);
     }
-
-    /**
-     * Get store ids to which specified item is assigned
-     *
-     * @param int $categoryId
-     * @return array
-     */
 }

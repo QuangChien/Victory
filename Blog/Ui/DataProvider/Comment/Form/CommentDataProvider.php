@@ -8,12 +8,11 @@ namespace Victory\Blog\Ui\DataProvider\Comment\Form;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
 use Victory\Blog\Model\ResourceModel\Comment\CollectionFactory;
-use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\Escaper;
 
 /**
- * Class DataProvider
+ * Class CommentDataProvider
  */
 class CommentDataProvider extends AbstractDataProvider
 {
@@ -21,11 +20,6 @@ class CommentDataProvider extends AbstractDataProvider
      * @var CollectionFactory
      */
     protected $collection;
-
-    /**
-     * @var DataPersistorInterface
-     */
-    protected $dataPersistor;
 
     /**
      * @var array
@@ -38,7 +32,7 @@ class CommentDataProvider extends AbstractDataProvider
     protected $url;
 
     /**
-     * @var \Magento\Framework\Escaper
+     * @var Escaper
      */
     protected $escaper;
 
@@ -50,15 +44,14 @@ class CommentDataProvider extends AbstractDataProvider
         $primaryFieldName,
         $requestFieldName,
         CollectionFactory $commentCollectionFactory,
-        DataPersistorInterface $dataPersistor,
         UrlInterface $url,
         array $meta = [],
         array $data = [],
         Escaper $escaper = null
-    ) {
-        $this->collection = $commentCollectionFactory->create();
-        $this->dataPersistor = $dataPersistor;
+    )
+    {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        $this->collection = $commentCollectionFactory->create();
         $this->meta = $this->prepareMeta($this->meta);
         $this->url = $url;
         $this->escaper = $escaper ?: \Magento\Framework\App\ObjectManager::getInstance()->create(
@@ -105,7 +98,7 @@ class CommentDataProvider extends AbstractDataProvider
                 'title' => $author->getNickname(),
                 'text' => $author->getNickname() .
                     ' - ' . $author->getEmail() .
-                    ' (' . __('Guest')  . ')',
+                    ' (' . __('Guest') . ')',
             ];
 
             switch ($comment->getAuthorType()) {
@@ -127,7 +120,6 @@ class CommentDataProvider extends AbstractDataProvider
                     } else {
                         $this->loadedData[$comment->getId()]['author_url'] = $guestData;
                     }
-
                     break;
                 case \Victory\Blog\Model\Config\Source\AuthorType::ADMIN:
                     if ($author->getAdmin()) {
@@ -166,14 +158,6 @@ class CommentDataProvider extends AbstractDataProvider
                     'text' => '',
                 ];
             }
-        }
-
-        $data = $this->dataPersistor->get('blog_comment_form_data');
-        if (!empty($data)) {
-            $comment = $this->collection->getNewEmptyItem();
-            $comment->setData($data);
-            $this->loadedData[$comment->getId()] = $comment->getData();
-            $this->dataPersistor->clear('blog_comment_form_data');
         }
 
         return $this->loadedData;

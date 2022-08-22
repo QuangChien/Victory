@@ -9,7 +9,7 @@ namespace Victory\Blog\Controller\Adminhtml\Post;
 use Victory\Blog\Controller\Adminhtml\Post;
 
 /**
- * Blog category edit
+ * Blog category delete
  */
 class Delete extends Post
 {

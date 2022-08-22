@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+
 namespace Victory\Blog\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
@@ -8,9 +13,6 @@ use Magento\Framework\UrlInterface;
 
 /**
  * Class ProductActions for Listing Columns
- *
- * @api
- * @since 100.0.2z
  */
 abstract class Actions extends Column
 {
@@ -22,7 +24,7 @@ abstract class Actions extends Column
     protected $_controllerName;
 
     /**
-     * Categories primary
+     * category primary
      *
      * @var string
      */
@@ -37,12 +39,13 @@ abstract class Actions extends Column
      * construct
      */
     public function __construct(
-        ContextInterface $context,
+        ContextInterface   $context,
         UiComponentFactory $uiComponentFactory,
-        UrlInterface $urlBuilder,
-        array $components = [],
-        array $data = []
-    ) {
+        UrlInterface       $urlBuilder,
+        array              $components = [],
+        array              $data = []
+    )
+    {
         $this->urlBuilder = $urlBuilder;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
@@ -57,7 +60,7 @@ abstract class Actions extends Column
             foreach ($dataSource['data']['items'] as &$item) {
                 $item[$this->getData('name')]['edit'] = [
                     'href' => $this->urlBuilder->getUrl(
-                        'blog/' .$this->_controllerName . '/edit',
+                        'blog/' . $this->_controllerName . '/edit',
                         ['id' => $item[$this->_primary]]
                     ),
                     'label' => __('Edit'),
@@ -66,7 +69,7 @@ abstract class Actions extends Column
 
                 $item[$this->getData('name')]['delete'] = [
                     'href' => $this->urlBuilder->getUrl(
-                        'blog/' .$this->_controllerName . '/delete',
+                        'blog/' . $this->_controllerName . '/delete',
                         ['id' => $item[$this->_primary]]
                     ),
                     'label' => __('Delete'),

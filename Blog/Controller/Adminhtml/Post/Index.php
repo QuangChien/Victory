@@ -8,7 +8,7 @@ namespace Victory\Blog\Controller\Adminhtml\Post;
 
 use Victory\Blog\Controller\Adminhtml\Post;
 /**
- * Blog category list controller
+ * Blog post list controller
  */
 class Index extends Post
 {

@@ -7,7 +7,6 @@
 namespace Victory\Blog\Controller\Adminhtml;
 
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Backend\App\Action;
 use Magento\Ui\Component\MassAction\Filter;
 
@@ -16,12 +15,6 @@ use Magento\Ui\Component\MassAction\Filter;
  */
 abstract class Actions extends Action
 {
-    /**
-     * Form session key
-     * @var string
-     */
-    protected $_formSessionKey;
-
     /**
      * Allowed Key
      * @var string
@@ -47,12 +40,6 @@ abstract class Actions extends Action
     protected $_activeMenu;
 
     /**
-     * Store config section key
-     * @var string
-     */
-    protected $_configSection;
-
-    /**
      * Request id key
      * @var string
      */
@@ -65,29 +52,10 @@ abstract class Actions extends Action
     protected $_statusField = 'status';
 
     /**
-     * Save request params key
-     * @var string
-     */
-    protected $_paramsHolder;
-
-    /**
      * Model Object
      * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_model;
-
-    /**
-     * Core registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $_coreRegistry = null;
-
-
-    /**
-     * @var DataPersistorInterface
-     */
-    protected $dataPersistor;
 
     /**
      * @var Filter
@@ -95,16 +63,14 @@ abstract class Actions extends Action
     private $_filter;
 
     /**
-     * @param Action\Context $context
-     * @param DataPersistorInterface $dataPersistor
+     * @param Context $context
+     * @param Filter $filter
      */
     public function __construct(
-        Context                $context,
-        DataPersistorInterface $dataPersistor,
-        Filter                 $filter
+        Context $context,
+        Filter  $filter
     )
     {
-        $this->dataPersistor = $dataPersistor;
         $this->_filter = $filter;
         parent::__construct($context);
     }
@@ -137,6 +103,7 @@ abstract class Actions extends Action
      *
      * @return void
      */
+
     protected function indexAction()
     {
         $this->_view->loadLayout();
@@ -187,11 +154,9 @@ abstract class Actions extends Action
         try {
             $model = $this->_getModel();
             $id = $this->getRequest()->getParam('id');
-
             if (!$model->getId() && $id) {
                 throw new \Exception("Item is not longer exist.", 1);
             }
-            $this->_getRegistry()->register('current_model', $model);
 
             $this->_view->loadLayout();
             $this->_setActiveMenu($this->_activeMenu);
@@ -235,18 +200,6 @@ abstract class Actions extends Action
     }
 
     /**
-     * Get core registry
-     * @return void
-     */
-    protected function _getRegistry()
-    {
-        if (is_null($this->_coreRegistry)) {
-            $this->_coreRegistry = $this->_objectManager->get(\Magento\Framework\Registry::class);
-        }
-        return $this->_coreRegistry;
-    }
-
-    /**
      * Save action
      * @return void
      */
@@ -259,8 +212,7 @@ abstract class Actions extends Action
         $model = $this->_getModel();
 
         try {
-            $params = $this->_paramsHolder ? $request->getParam($this->_paramsHolder) : $request->getParams();
-            $params = $this->filterParams($params);
+            $params = $request->getParams();
 
             $idFieldName = $model->getResource()->getIdFieldName();
             if (isset($params[$idFieldName]) && empty($params[$idFieldName])) {
@@ -313,23 +265,13 @@ abstract class Actions extends Action
     }
 
     /**
-     * Filter request params
-     * @param array $data
-     * @return array
-     */
-    protected function filterParams($data)
-    {
-        return $data;
-    }
-
-    /**
      * Delete action
      * @return void
      */
     protected function deleteAction()
     {
         $ids = (array)$this->getRequest()->getParam($this->_idKey);
-        if(!$ids) {
+        if (!$ids) {
             $collection = $this->_filter->getCollection($this->_objectManager->create($this->_collectionClass));
             $ids = $collection->getAllIds();
         }

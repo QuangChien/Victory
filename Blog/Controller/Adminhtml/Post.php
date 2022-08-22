@@ -1,24 +1,16 @@
 <?php
 /**
- * Copyright © Magefan (support@magefan.com). All rights reserved.
- * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
- *
- * Glory to Ukraine! Glory to the heroes!
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
  */
 
 namespace Victory\Blog\Controller\Adminhtml;
 
 /**
- * Admin blog post edit controller
+ * Admin blog post controller
  */
 class Post extends Actions
 {
-    /**
-     * Form session key
-     * @var string
-     */
-    protected $_formSessionKey = 'blog_post_form_data';
-
     /**
      * Allowed Key
      * @var string

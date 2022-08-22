@@ -11,7 +11,7 @@ use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 
 /**
- * Categories ResourceModel
+ * Post ResourceModel
  */
 class Post extends AbstractDb
 {
@@ -65,58 +65,6 @@ class Post extends AbstractDb
 
         return parent::_beforeDelete($object);
     }
-
-//    /**
-//     * Process post data before saving
-//     *
-//     * @param \Magento\Framework\Model\AbstractModel $object
-//     * @return $this
-//     * @throws \Magento\Framework\Exception\LocalizedException
-//     */
-//    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
-//    {
-//        foreach (['publish_time', 'custom_theme_from', 'custom_theme_to'] as $field) {
-//            $value = $object->getData($field) ?: null;
-//            $object->setData($field, $this->dateTime->formatDate($value));
-//        }
-//
-//        $identifierGenerator = \Magento\Framework\App\ObjectManager::getInstance()
-//            ->create(\Magefan\Blog\Model\ResourceModel\PageUrlKeyGenerator::class);
-//        $identifierGenerator->generate($object);
-//
-//        if (!$this->isValidPageIdentifier($object)) {
-//            throw new \Magento\Framework\Exception\LocalizedException(
-//                __('The post URL key contains disallowed symbols.')
-//            );
-//        }
-//
-//        if ($this->isNumericPageIdentifier($object)) {
-//            throw new \Magento\Framework\Exception\LocalizedException(
-//                __('The post URL key cannot be made of only numbers.')
-//            );
-//        }
-//
-//        $id = $this->checkIdentifier($object->getData('identifier'), $object->getData('store_ids'));
-//        if ($id && $id !== $object->getId()) {
-//            throw new \Magento\Framework\Exception\LocalizedException(
-//                __('URL key is already in use by another blog item.')
-//            );
-//        }
-//
-//        $gmtDate = $this->_date->gmtDate();
-//
-//        if ($object->isObjectNew() && !$object->getCreationTime()) {
-//            $object->setCreationTime($gmtDate);
-//        }
-//
-//        if (!$object->getPublishTime()) {
-//            $object->setPublishTime($object->getCreationTime());
-//        }
-//
-//        $object->setUpdateTime($gmtDate);
-//
-//        return parent::_beforeSave($object);
-//    }
 
     /**
      * Assign post to store views, categories, related posts, etc.
@@ -290,7 +238,7 @@ class Post extends AbstractDb
     }
 
     /**
-     * Check if post identifier exist for specific store
+     * Check if post url key exist for specific store
      * return post id if post exists
      *
      * @param string $urlKey
@@ -310,14 +258,14 @@ class Post extends AbstractDb
     }
 
     /**
-     * Check if post identifier exist for specific store
+     * Check if post url key exist for specific store
      * return post id if post exists
      *
-     * @param string $identifier
+     * @param string $urlkey
      * @param int $storeId
      * @return int
      */
-    protected function _getLoadByUrlKeySelect($identifier, $storeIds)
+    protected function _getLoadByUrlKeySelect($urlkey, $storeIds)
     {
         $select = $this->getConnection()->select()->from(
             ['cp' => $this->getMainTable()]
@@ -327,7 +275,7 @@ class Post extends AbstractDb
             []
         )->where(
             'cp.url_key = ?',
-            $identifier
+            $urlkey
         )->where(
             'cps.store_id IN (?)',
             $storeIds
@@ -420,7 +368,7 @@ class Post extends AbstractDb
             );
         }
 
-        $id = $this->checkUrlKey($object->getData('identifier'), $object->getData('store_ids'));
+        $id = $this->checkUrlKey($object->getData('url_key'), $object->getData('store_ids'));
         if ($id && $id !== $object->getId()) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('URL key is already in use by another blog item.')

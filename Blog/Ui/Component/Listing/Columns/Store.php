@@ -11,12 +11,13 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Store\Model\System\Store as SystemStore;
 use Magento\Framework\ObjectManagerInterface;
+use Magento\Store\Ui\Component\Listing\Column\Store as StoreColumn;
 
 
 /**
  * Store in Grid
  */
-class Store extends \Magento\Store\Ui\Component\Listing\Column\Store
+class Store extends StoreColumn
 {
     /**
      * Categories id
@@ -24,7 +25,7 @@ class Store extends \Magento\Store\Ui\Component\Listing\Column\Store
     const ID_FIELD_NAME_CATEGORY = 'category_id';
 
     /**
-     * Categories resource
+     * Category resource
      */
     const CATEGORY_RESOURCE = \Victory\Blog\Model\ResourceModel\Category::class;
 
@@ -32,10 +33,6 @@ class Store extends \Magento\Store\Ui\Component\Listing\Column\Store
      * Post resource
      */
     const POST_RESOURCE = \Victory\Blog\Model\ResourceModel\Post::class;
-    /**
-     * @var CategoryFactory
-     */
-    protected $_resource;
 
     /**
      * @var ObjectManagerInterface

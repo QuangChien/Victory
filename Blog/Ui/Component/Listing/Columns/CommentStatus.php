@@ -11,7 +11,7 @@ use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
- * AuthorType
+ * CommentStatus
  */
 class CommentStatus extends Column
 {
@@ -40,18 +40,16 @@ class CommentStatus extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 if ($item) {
-                    if($item['status'] == self::PENDING) {
+                    if ($item['status'] == self::PENDING) {
                         $item['status'] = __('Pending');
-                    } elseif ($item['status'] == self::APPROVED){
+                    } elseif ($item['status'] == self::APPROVED) {
                         $item['status'] = __('Approved');
-                    }elseif ($item['status'] == self::NOT_APPROVED) {
+                    } elseif ($item['status'] == self::NOT_APPROVED) {
                         $item['status'] = __('Not Approved');
                     }
                 }
             }
         }
-//        echo "<pre>";
-//        print_r($dataSource); die();
         return $dataSource;
     }
 }

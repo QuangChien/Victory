@@ -8,27 +8,21 @@ namespace Victory\Blog\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
- * Categories Status
+ * Category Status
  */
-class Status extends \Magento\Ui\Component\Listing\Columns\Column
+class Status extends Column
 {
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
 
     public function __construct(
         ContextInterface      $context,
         UiComponentFactory    $uiComponentFactory,
-        StoreManagerInterface $storeManager,
         array                 $components = [],
         array                 $data = []
     )
     {
-        $this->storeManager = $storeManager;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
