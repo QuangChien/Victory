@@ -8,7 +8,7 @@ namespace Victory\Blog\Controller\Adminhtml\Comment;
 
 use Victory\Blog\Controller\Adminhtml\Comment;
 /**
- * Blog comment list controller
+ * AbstractBlog comment list controller
  */
 class Index extends Comment
 {

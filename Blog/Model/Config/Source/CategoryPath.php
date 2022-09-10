@@ -34,7 +34,7 @@ class CategoryPath extends CategoryTree
                     $data = [
                         'label' => $item->getName() .
                             ($item->getIsActive() ? '' : ' (' . __('Disabled') . ')'),
-                        'value' => ($item->getParentIds() ? $item->getPath() . '/' : '') . $item->getId(),
+                        'value' => $item->getId(),
                     ];
                     if (isset($childs[$item->getId()])) {
                         $data['optgroup'] = $this->_getOptions($item->getId());

@@ -25,9 +25,9 @@ class CategoryDataProvider extends AbstractDataProvider
     protected $loadedData;
 
     /**
-     * @param $name
-     * @param $primaryFieldName
-     * @param $requestFieldName
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
      * @param CollectionFactory $categoryCollectionFactory
      * @param array $meta
      * @param array $data

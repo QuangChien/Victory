@@ -16,9 +16,6 @@
              sortOrder="20" action="blog/category" resource="Victory_Blog::category"/>
         <add id="Victory_Blog::comment" title="Comments" module="Victory_Blog" parent="Victory_Blog::blog"
              sortOrder="30" action="blog/comment" resource="Victory_Blog::comment"/>
-        <add id="Magefan_Blog::widget" title="Add Blog Blocks via Widgets" module="Victory_Blog"
-             parent="Victory_Blog::blog" sortOrder="40" action="adminhtml/widget_instance"
-             resource="Magento_Widget::widget_instance"/>
         <add id="Victory_Blog::config" title="Configuration" module="Victory_Blog" parent="Victory_Blog::blog"
              sortOrder="50" action="adminhtml/system_config/edit/section/mfblog" resource="Victory_Blog::config"/>
     </menu>

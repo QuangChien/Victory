@@ -36,9 +36,9 @@ class PostDataProvider extends AbstractDataProvider
     protected $_storeManager;
 
     /**
-     * @param $name
-     * @param $primaryFieldName
-     * @param $requestFieldName
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
      * @param CollectionFactory $postCollectionFactory
      * @param array $meta
      * @param array $data

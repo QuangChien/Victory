@@ -9,7 +9,7 @@ namespace Victory\Blog\Controller\Adminhtml\Comment;
 use Victory\Blog\Controller\Adminhtml\Comment;
 
 /**
- * Blog comment edit
+ * AbstractBlog comment edit
  */
 class Edit extends Comment
 {

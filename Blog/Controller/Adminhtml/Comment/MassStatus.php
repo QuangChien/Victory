@@ -8,7 +8,7 @@ namespace Victory\Blog\Controller\Adminhtml\Comment;
 
 use Victory\Blog\Controller\Adminhtml\Comment;
 /**
- * Blog comment MassStatus controller
+ * AbstractBlog comment MassStatus controller
  */
 class MassStatus extends Comment
 {

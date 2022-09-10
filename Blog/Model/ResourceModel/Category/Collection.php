@@ -37,4 +37,19 @@ class Collection extends AbstractCollection
         }
         return $childs;
     }
+
+    /**
+     * @param $postId
+     * @return $this
+     */
+    public function filterCategories($postId)
+    {
+        $postCategoryTable = $this->getTable('gv_blog_post_category');
+        $this->getSelect()
+            ->join(array('pct' => $postCategoryTable), 'main_table' . '.category_id = pct.category_id',
+                array('pct.post_id')
+            );
+        $this->getSelect()->where("post_id= " . $postId);
+        return $this;
+    }
 }

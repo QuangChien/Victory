@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="victory" translate="label" sortOrder="10">
+            <label>Victory Extensions</label>
+        </tab>
+        <section id="gvblog" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Blog</label>
+            <tab>victory</tab>
+            <resource>Victory_Blog::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>General Configuration</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Extension</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="posts_per_page" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Posts Per Page</label>
+                </field>
+            </group>
+
+            <group id="index_page" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Blog Index Page</label>
+
+                <field id="title" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="meta_title" translate="label comment" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Title</label>
+                </field>
+
+                <field id="meta_keywords" translate="label comment" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Keywords</label>
+                </field>
+                <field id="meta_description" translate="label comment" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Description</label>
+                </field>
+            </group>
+
+            <group id="author" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Blog Author</label>
+
+                <field id="title" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="meta_title" translate="label comment" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Title</label>
+                </field>
+
+                <field id="meta_keywords" translate="label comment" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Keywords</label>
+                </field>
+                <field id="meta_description" translate="label comment" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Description</label>
+                </field>
+            </group>
+
+            <group id="sidebar" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Sidebar</label>
+                <field id="recent_posts_total_number" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Recent Posts Number</label>
+                </field>
+            </group>
+
+            <group id="permalink" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Permalink Settings</label>
+                <field id="route" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Blog Route</label>
+                    <validate>required-entry</validate>
+                    <comment>E.g.: "blog" will make the blog accessible from mystore.com/blog</comment>
+                </field>
+
+                <field id="type" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Permalink Type</label>
+                    <source_model>Victory\Blog\Model\Config\Source\PermalinkType</source_model>
+                </field>
+
+                <field id="post_route" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Post Route</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="type">default</field>
+                    </depends>
+                    <comment>E.g.: "post" will make the blog post accessible from mystore.com/{blog_route}/post/post-url</comment>
+                </field>
+                <field id="post_sufix" translate="label comment" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Post URL Suffix</label>
+                    <comment>E.g.: ".html" will make the blog post accessible from mystore.com/{blog_route}/post/post-url.html</comment>
+                </field>
+                <field id="category_route" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category Route</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="type">default</field>
+                    </depends>
+                    <comment>E.g.: "category" will make the blog category accessible from mystore.com/{blog_route}/category/category-url</comment>
+                </field>
+                <field id="category_sufix" translate="label comment" type="text" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category URL Suffix</label>
+                    <comment>E.g.: ".html" will make the blog category accessible from mystore.com/{blog_route}/category/category-url.html</comment>
+                </field>
+
+                <field id="author_route" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Author Route</label>
+                    <validate>required-entry</validate>
+                    <comment>E.g.: "author" will make the blog author posts accessible from mystore.com/{blog_route}/author/author-name</comment>
+                </field>
+                <field id="author_sufix" translate="label comment" type="text" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Author URL Suffix</label>
+                    <comment>E.g.: ".html" will make the blog author accessible from mystore.com/{blog_route}/author/author-name.html</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

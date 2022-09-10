@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Victory_Blog::css/base.css"/>
+        <css src="Victory_Blog::css/grid.css"/>
+        <css src="Victory_Blog::css/responsive.css"/>
+        <css src="Victory_Blog::css/main.css"/>
+        <css src="Victory_Blog::css/list.css"/>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceContainer name="content">
+            <container name="blog.post.content" htmlTag="div" htmlId="page-content">
+                <container name="blog.category.grid" htmlTag="div" htmlClass="grid wide">
+                    <block class="Victory\Blog\Block\Author\View" name="blog.author.view.title" template="Victory_Blog::author/author_name.phtml"/>
+                    <container htmlTag="div" htmlId="post-content" htmlClass="row">
+                        <block cacheable="false" class="Victory\Blog\Block\Author\View" name="blog.post.author.view" template="Victory_Blog::author/view.phtml"/>
+                        <block class="Victory\Blog\Block\Sidebar\Index" name="blog.sidebar" template="Victory_Blog::sidebar/sidebar.phtml"/>
+                    </container>
+                </container>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

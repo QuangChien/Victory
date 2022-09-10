@@ -1,0 +1,94 @@
+<?php
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+?>
+
+<?php
+/**
+ * @var $block \Victory\Blog\Block\Sidebar\Index
+ */
+?>
+
+<?php
+$posts = $block->getRecentPosts();
+?>
+<div class="col l-4 sidebar">
+    <div class="posts-categories">
+        <?= $block->generateMenu(); ?>
+    </div>
+    <?php if ($block->getCategories()->count() > 0) :?>
+
+    <?php endif; ?>
+
+    <div class="socials">
+        <div class="socials-title sidebar-title">
+            Follow me
+        </div>
+
+        <div class="socials-content flex">
+            <div class="social-item">
+                <a class="social-item-link" href="">
+                    <img width="100%"
+                         src="<?= $block->getViewFileUrl('Victory_Blog::images/facebook-square-brands.svg') ?>"
+                         alt="">
+                </a>
+            </div>
+            <div class="social-item">
+                <a class="social-item-link" href="">
+                    <img width="100%"
+                         src="<?= $block->getViewFileUrl('Victory_Blog::images/instagram-square-brands.svg') ?>"
+                         alt="">
+                </a>
+            </div>
+            <div class="social-item">
+                <a class="social-item-link" href="">
+                    <img width="100%"
+                         src="<?= $block->getViewFileUrl('Victory_Blog::images/pinterest-square-brands.svg') ?>"
+                         alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <?php if(count($posts) > 0):?>
+        <div class="new-posts">
+            <div class="new-posts-title sidebar-title">
+                Recent Posts
+            </div>
+
+            <div class="socials-content">
+                <?php foreach ($posts as $post):?>
+                    <div class="new-posts-item">
+                        <a href="<?= $block->escapeHtml($post->getPostUrl()) ?>"
+                           class="new-posts-item-img decoration-none">
+                            <img src="<?=$block->escapeHtml($block->getPathImage($post->getFeaturedImg())) ?> "
+                                 width="100%">
+                        </a>
+                        <a class="new-posts-link decoration-none" href="<?= $block->escapeHtml($post->getPostUrl()) ?>">
+                            <?= $block->escapeHtml($post->getTitle()) ?>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<script>
+    require(['jquery', 'domReady!'], function($){
+        $(".category-item-icon").click(function() {
+            if ($(this).parent().siblings().css("display") == 'none') {
+                $(this).parent().siblings().css("display", "block");
+                $(this).css("transform", "rotate(180deg)").css("top", "40%");
+                $(this).parent().addClass('active');
+            } else {
+                $(this).parent().siblings().css("display", "none");
+                $(this).css("transform", "rotate(0)");
+                $(this).parent().removeClass('active');
+            }
+        });
+
+    })
+</script>

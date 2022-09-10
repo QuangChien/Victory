@@ -19,10 +19,7 @@
                 comment="Category Meta Description"/>
         <column xsi:type="varchar" name="url_key" nullable="false" length="100" comment="Category Url Key"/>
         <column xsi:type="mediumtext" name="description" nullable="true" comment="Category Description"/>
-        <column xsi:type="varchar" name="path" nullable="true" length="255" comment="Category Tree Path"/>
-        <column xsi:type="smallint" name="position" nullable="true" length="255" comment="Category Position"/>
-        <column xsi:type="smallint" name="posts_sort_by" comment="Post Sort By" default="0"/>
-        <column xsi:type="int" name="posts_per_page" comment="Posts Per Page" default="0"/>
+        <column xsi:type="varchar" name="path" nullable="true" length="255" comment="Category Tree Path" default="0"/>
         <column xsi:type="smallint" name="is_active" comment="Is Category Active" default="1"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="category_id"/>
@@ -76,17 +73,15 @@
         <column xsi:type="varchar" name="url_key" nullable="false" length="100" comment="Post Url Key"/>
         <column xsi:type="mediumtext" name="description" nullable="true" comment="Post Description"/>
         <column xsi:type="mediumtext" name="content" nullable="true" comment="Post Description"/>
-        <column xsi:type="smallint" name="position" nullable="true" comment="Category Position"/>
         <column xsi:type="varchar" name="featured_img" nullable="true" length="255" comment="Featured Image"/>
         <column xsi:type="varchar" name="featured_img_alt" nullable="true" length="255" comment="Featured Image Alt"/>
         <column xsi:type="int" name="author_id" unsigned="true" nullable="true" comment="Author ID"/>
         <column xsi:type="int" name="views_count" unsigned="true" nullable="true" comment="Post Views Count"/>
-        <column xsi:type="int" name="comments_count" unsigned="true" nullable="true" comment="Post Comment Counts"/>
         <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="Post Creation Time"/>
         <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="Post Modification Time"/>
-        <column xsi:type="datetime" name="publish_time" on_update="true" nullable="true" comment="Publish Time"/>
+        <column xsi:type="datetime" name="publish_time" on_update="false" nullable="true" comment="Publish Time"/>
         <column xsi:type="smallint" name="is_active" comment="Is Category Active" default="1"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="post_id"/>
@@ -163,7 +158,6 @@
         <column xsi:type="int" name="customer_id" unsigned="true" comment="Customer ID"/>
         <column xsi:type="smallint" name="author_type" nullable="true" comment="Author Type"/>
         <column xsi:type="varchar" name="author_nickname" nullable="false" length="255" comment="Comment Author Nickname"/>
-        <column xsi:type="varchar" name="author_email" nullable="false" length="255" comment="Comment Author Email"/>
         <column xsi:type="varchar" name="author_email" nullable="false" length="255" comment="Comment Author Email"/>
         <column xsi:type="mediumtext" name="content" nullable="true" comment="Comment Content"/>
         <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"

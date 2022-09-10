@@ -24,10 +24,6 @@ class AuthorType implements ArrayInterface
      */
     const CUSTOMER = 1;
 
-    /**
-     * @const string
-     */
-    const ADMIN = 2;
 
     /**
      * Options getter
@@ -38,8 +34,7 @@ class AuthorType implements ArrayInterface
     {
         return [
             ['value' => self::GUEST, 'label' => __('Guest')],
-            ['value' => self::CUSTOMER, 'label' => __('Customer')],
-            ['value' => self::ADMIN, 'label' => __('Admin')],
+            ['value' => self::CUSTOMER, 'label' => __('Customer')]
         ];
     }
 

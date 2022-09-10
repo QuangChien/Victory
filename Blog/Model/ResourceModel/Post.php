@@ -15,12 +15,16 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
  */
 class Post extends AbstractDb
 {
+    /**
+     * @var DateTime
+     */
     protected $_date;
 
     /**
      * Initialize dependencies
      *
      * @param Context $context
+     * @param DateTime $date
      */
     public function __construct(
         Context  $context,
@@ -29,6 +33,14 @@ class Post extends AbstractDb
     {
         $this->_date = $date;
         parent::__construct($context);
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDate()
+    {
+        return $this->_date;
     }
 
     /**
@@ -388,6 +400,20 @@ class Post extends AbstractDb
         $object->setUpdateTime($gmtDate);
 
         return parent::_beforeSave($object);
+    }
+
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function incrementViewsCount(\Magento\Framework\Model\AbstractModel $object)
+    {
+        $this->getConnection()->update(
+            $this->getMainTable(),
+            ['views_count' => $object->getData('views_count') + 1],
+            ['post_id = ?' => $object->getId()]
+        );
     }
 
 }

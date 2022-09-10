@@ -1,0 +1,195 @@
+<?php
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+?>
+
+<?php
+/**
+ *  post item view template
+ *
+ * @var $block \Victory\Blog\Block\Post\View
+ */
+?>
+
+<?php
+$post = $block->getPost();
+
+$relatedPosts = $block->getRelatedPosts();
+
+/**
+ * @return \Victory\Blog\Model\ResourceModel\Category\Collection
+ */
+$categories = $post->getCategories();
+
+?>
+
+<div class="col l-8 m-12 c-12 posts-item-wrapper">
+    <div class="post-image-info">
+        <img src="<?= $block->escapeUrl($block->getPathImage($post->getFeaturedImg())) ?>" width="100%"
+             alt="<?= $block->escapeHtml($post->getFeaturedImgAlt()) ?>">
+        <div class="image-title">
+            <p><?= $post->getDescription() ?></p>
+        </div>
+    </div>
+
+    <div class="post-item-info">
+        <div class="post-item-date item">
+            <strong><?= $block->escapeHtml(__('Posted: ')) ?> </strong>
+            <span>
+                <?php $date = date_create($post->getPublishTime()); ?>
+                <?= date_format($date, 'd/m/Y') ?>
+            </span>
+        </div>
+        <div class="post-item-author item">
+            <strong>Author: </strong>
+            <a class="post-author-link decoration-none"
+               href="<?= $block->escapeUrl($post->getAuthor()->getAuthorUrl()) ?>">
+                <?= $block->escapeHtml($post->getAuthor()->getUsername()) ?>
+            </a>
+        </div>
+        <?php if (count($categories) > 0): ?>
+            <div class="post-categories item">
+                <strong>Categories: </strong>
+                <span>
+                <?php $i = 0; ?>
+                    <?php foreach ($categories as $category): ?>
+                        <?php $i++ ?>
+
+                        <a class="decoration-none" href="<?= $block->escapeUrl($category->getCategoryUrl()) ?>">
+                        <?= $block->escapeHtml($category->getName()) ?>
+                    </a>
+                        <?= ($i != count($categories)) ? ', ' : '' ?>
+                    <?php endforeach; ?>
+            </span>
+            </div>
+        <?php endif; ?>
+
+        <?php if((int)$post->getViewsCount() > 0):?>
+            <div class="p-viewscount item">
+                <strong>View: </strong>
+                <span><?= $block->escapeHtml($post->getViewsCount()) ?></span>
+            </div>
+        <?php endif; ?>
+
+        <div class="p-comment item">
+            <strong>Comments: </strong>
+            <span><a class="decoration-none"
+                     href="<?= $block->getUrlCurrent() . "#post-comments" ?>"><?= $block->escapeHtml($post->getCommentCount()) ?></a></span>
+        </div>
+    </div>
+
+    <div class="post-detail">
+        <?= $post->getContent() ?>
+    </div>
+
+    <div id="post-comments" class="post-comments">
+        <div class="comment-count">
+            <strong><?= $block->escapeHtml($post->getCommentCount()) ?> Comment(s)</strong>
+        </div>
+        <div class="comment-reply">
+            <form class="comment-form" action="<?= $block->escapeUrl($block->getFormUrl()) ?>" method="POST">
+                <input name="post_id" type="hidden" value="<?= (int)($post->getId()) ?>">
+                <input type="hidden" name="parent_id" value="0"/>
+                <textarea name="content" placeholder="Add a comment..." data-validate='{"required":true}'></textarea>
+                <?php if (!$block->isLoggedIn()): ?>
+                    <div class="comment-info">
+                        <div class="comment-fullname">
+                            <input type="text" name="author_nickname" placeholder="Full Name"
+                                   data-validate='{"required":true}'>
+                        </div>
+                        <div class="comment-email">
+                            <input type="email" name="author_email" placeholder="Email"
+                                   data-validate="{required:true, 'validate-email':true}">
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <button class="btn submit" type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="comment-detail">
+            <?= $block->renderCommentsHtml($parentId = 0) ?>
+        </div>
+
+    </div>
+
+    <?php if(count($relatedPosts) > 0): ?>
+        <div class="news-post-slider">
+            <div class="news-post-slider-title">
+                <h3>Related Posts</h3>
+            </div>
+            <div class="owl-theme">
+                <div class="owl-controls">
+                    <div id="customNav" class="owl-nav"></div>
+                </div>
+            </div>
+            <div class="owl-carousel owl-theme">
+                <?php foreach ($relatedPosts as $post): ?>
+                    <div class="news-post-slider-item">
+                        <div class="news-post-slider-img">
+                            <img src="<?= $block->escapeUrl($block->getPathImage($post->getFeaturedImg())) ?>"
+                                 width="100%" alt="<?= $block->escapeHtml($post->getFeaturedImgAlt()) ?>">
+                        </div>
+
+                        <div class="news-post-slider-content">
+                            <h3 class="news-post-slider-title">
+                                <a class="news-post-slider-title-link decoration-none"
+                                   href="<?= $block->escapeUrl($post->getPostUrl()) ?>">
+                                    <?= $block->escapeHtml($post->getTitle()) ?>
+                                </a>
+                            </h3>
+
+                            <a class="news-post-slider-link decoration-none"
+                               href="<?= $block->escapeUrl($post->getPostUrl()) ?>">
+                                Detail
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
+
+        </div>
+    <?php endif; ?>
+</div>
+<script>
+    require([
+            "jquery",
+            "owlcarousel",
+            "domReady!",
+            "mage/mage"
+        ],
+        function ($) {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 30,
+                nav: true,
+                navContainer: '#customNav',
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 3
+                    }
+                },
+                dots: false,
+            })
+
+            $('.comment-detail-action').click(function () {
+                $(this).siblings().show();
+            });
+
+            $('.cancel').click(function () {
+                $(this).parent().parent().hide();
+            });
+
+            var dataForm = $('.comment-form');
+            dataForm.mage('validation', {});
+        });
+</script>

@@ -7,12 +7,39 @@
 namespace Victory\Blog\Model;
 
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Registry;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 /**
  * Category Model
  */
 class Category extends AbstractModel
 {
+    /**
+     * @var \Magento\Framework\UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * @var string
+     */
+    protected $controllerName;
+
+    public function __construct(
+        Context          $context,
+        Registry         $registry,
+        Url              $url,
+        AbstractResource $resource = null,
+        AbstractDb       $resourceCollection = null,
+        array            $data = []
+    )
+    {
+        $this->_url = $url;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Initialize resource model
      *
@@ -21,6 +48,7 @@ class Category extends AbstractModel
     protected function _construct()
     {
         $this->_init('Victory\Blog\Model\ResourceModel\Category');
+        $this->controllerName = URL::CONTROLLER_CATEGORY;
     }
 
     /**
@@ -76,5 +104,28 @@ class Category extends AbstractModel
     public function checkUrlKey($urlKey, $storeId)
     {
         return $this->_getResource()->checkUrlKey($urlKey, $storeId);
+    }
+
+    /**
+     * Retrieve if is visible on store
+     * @return bool
+     */
+    public function isVisibleOnStore($storeId)
+    {
+        return $this->getIsActive()
+            && (null === $storeId || array_intersect([0, $storeId], $this->getStoreIds()));
+    }
+
+    /**
+     * Retrieve category url
+     * @return string
+     */
+    public function getCategoryUrl()
+    {
+        if (!$this->hasData('category_url')) {
+            $url = $this->_url->getUrl($this, $this->controllerName);
+            $this->setData('category_url', $url);
+        }
+        return $this->getData('category_url');
     }
 }

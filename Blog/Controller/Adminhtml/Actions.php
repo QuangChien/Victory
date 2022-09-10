@@ -155,7 +155,7 @@ abstract class Actions extends Action
             $model = $this->_getModel();
             $id = $this->getRequest()->getParam('id');
             if (!$model->getId() && $id) {
-                throw new \Exception("Item is not longer exist.", 1);
+                throw new \Exception("View is not longer exist.", 1);
             }
 
             $this->_view->loadLayout();

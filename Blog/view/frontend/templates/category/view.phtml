@@ -1,0 +1,84 @@
+<?php
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+?>
+
+<?php
+/**
+ * CageoryView title view template
+ *
+ * @var $block \Victory\Blog\Block\Category\Vìew
+ */
+?>
+
+<?php
+$posts = $block->getPosts();
+?>
+
+<div class="col l-8 m-12 c-12">
+    <?php if (count($posts) > 0): ?>
+        <div class="category-description">
+            <p><?= $block->getCategoryDes() ?></p>
+        </div>
+        <div class="posts-list-wrapper">
+            <?php
+            foreach ($posts as $post):?>
+                <div class="posts-item-wrapper">
+                    <div class="posts-item">
+                        <div class="post-item-header">
+                            <h2 class="post-title">
+                                <a href="<?= $block->escapeUrl($post->getPostUrl()) ?>"
+                                   class="post-item-link"><?= $block->escapeHtml($post->getTitle(), null) ?>
+                                </a>
+                            </h2>
+                        </div>
+
+                        <div class="row post-item-content">
+                            <div class="col l-5 c-12 m-5 post-item-img">
+                                <img src="<?= $block->getPathImage($post->getFeaturedImg()) ?>" width="100%"
+                                     alt="<?= $post->getFeaturedImgAlt() ?>">
+                            </div>
+
+                            <div class="col l-7 c-12 m-7">
+                                <div>
+                                    <div class="post-descripton text-smile">
+                                        <?= /*@noEscape*/
+                                        $post->getDescription()
+                                        ?>
+                                    </div>
+                                    <div class="post-info">
+                                        <strong>Posted: </strong>
+                                        <span><?php
+                                            $date = date_create($post->getPublishTime());
+                                            ?>
+                                            <?= date_format($date, 'd/m/Y') ?></span> |
+                                        <strong>Author: </strong>
+                                        <a href="<?= $block->escapeUrl($post->getAuthor()->getAuthorUrl()) ?>"
+                                           class="post-author"><?= $post->getUsername() ?>
+                                        </a>
+                                    </div>
+
+                                    <div class="post-read-more">
+                                        <a class="decoration-none" href="<?= $block->escapeUrl($post->getPostUrl()) ?>">
+                                            Read more
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <?php endif ?>
+    <?php else: ?>
+        <div class="message info empty">
+            <div>We can't find products matching the selection.</div>
+        </div>
+    <?php endif; ?>
+
+</div>

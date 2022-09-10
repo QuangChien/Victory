@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Victory_Blog::css/base.css"/>
+        <css src="Victory_Blog::css/grid.css"/>
+        <css src="Victory_Blog::css/responsive.css"/>
+        <css src="Victory_Blog::css/main.css"/>
+        <css src="Victory_Blog::css/post-item.css"/>
+        <css src="Victory_Blog::css/owlcarousel/owl.carousel.min.css"/>
+        <css src="Victory_Blog::css/owlcarousel/owl.theme.default.min.css"/>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceContainer name="content">
+            <container name="blog.post.content" htmlTag="div" htmlId="page-content">
+                <container name="blog.category.grid" htmlTag="div" htmlClass="grid wide">
+                    <block class="Victory\Blog\Block\Post\View" name="blog.post.item.title" template="Victory_Blog::post/post_title.phtml"/>
+                    <container htmlTag="div" htmlId="post-content" htmlClass="row">
+                        <block cacheable="false" class="Victory\Blog\Block\Post\View" name="blog.post.item" template="Victory_Blog::post/item.phtml"/>
+                        <block class="Victory\Blog\Block\Sidebar\Index" name="blog.sidebar" template="Victory_Blog::sidebar/sidebar.phtml"/>
+                    </container>
+                </container>
+            </container>
+        </referenceContainer>
+    </body>
+</page>
+
+

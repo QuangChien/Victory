@@ -8,7 +8,7 @@ namespace Victory\Blog\Controller\Adminhtml\Category;
 
 use Victory\Blog\Controller\Adminhtml\Category;
 /**
- * Blog category list controller
+ * AbstractBlog category list controller
  */
 class Index extends Category
 {

@@ -10,7 +10,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Catalog\Controller\Adminhtml\Category\Image\Upload;
 
 /**
- * Blog featured image upload controller
+ * featured image upload controller
  */
 class FeaturedImg extends Upload
 {

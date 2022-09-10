@@ -1,0 +1,42 @@
+/*mobile and tablet*/
+@media (max-width: 1023px){
+	
+}
+
+/*tablet*/
+@media (min-width: 768px) and (max-width: 1023px){
+
+}
+
+/*mobile*/
+@media (max-width: 739px){
+	html{
+		font-size: 55%;
+	}
+
+	#page-content #post-content .author-info-wrapper{
+		flex-wrap: wrap;
+	}
+
+	#page-content #post-content .author-info-image{
+		width: 40%;
+	}
+
+	#page-content #post-content .author-info{
+		width: 100%;
+	}
+
+	#page-content h1.page-title{
+		font-size: 2.8rem;
+	}
+
+	#page-content #post-content .post-share-social-wrap{
+		margin-top: -2rem;
+	}
+
+	#page-content #post-content .post-item-info{
+		border-bottom: 2px solid #fefefe;
+		margin-bottom: 2rem;
+	}
+
+}

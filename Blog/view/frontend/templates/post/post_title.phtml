@@ -1,0 +1,21 @@
+<?php
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+?>
+
+<?php
+/**
+ * Post View title template
+ *
+ * @var $block \Victory\Blog\Block\Post\View
+ */
+?>
+<div class="row">
+    <div class="col l-8">
+        <h1 class="page-title">
+            <?= $block->escapeHtml($this->getPost()->getTitle()) ?>
+        </h1>
+    </div>
+</div>

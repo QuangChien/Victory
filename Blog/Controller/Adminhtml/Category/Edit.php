@@ -9,7 +9,7 @@ namespace Victory\Blog\Controller\Adminhtml\Category;
 use Victory\Blog\Controller\Adminhtml\Category;
 
 /**
- * Blog category edit
+ * AbstractBlog category edit
  */
 class Edit extends Category
 {

@@ -121,22 +121,6 @@ class CommentDataProvider extends AbstractDataProvider
                         $this->loadedData[$comment->getId()]['author_url'] = $guestData;
                     }
                     break;
-                case \Victory\Blog\Model\Config\Source\AuthorType::ADMIN:
-                    if ($author->getAdmin()) {
-                        $this->loadedData[$comment->getId()]['author_url'] = [
-                            'url' => $this->url->getUrl(
-                                'admin/user/edit',
-                                ['id' => $comment->getAdminId()]
-                            ),
-                            'title' => $author->getNickname(),
-                            'text' => '#' . $comment->getAdminId() .
-                                '. ' . $author->getNickname() .
-                                ' (' . __('Admin') . ')',
-                        ];
-                    } else {
-                        $this->loadedData[$comment->getId()]['author_url'] = $guestData;
-                    }
-                    break;
             }
 
             if ($comment->getParentId()

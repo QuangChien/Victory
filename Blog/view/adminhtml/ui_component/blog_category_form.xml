@@ -116,18 +116,6 @@
                 </item>
             </argument>
         </field>
-        <field name="position">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Position</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">category</item>
-                    <item name="sortOrder" xsi:type="number">40</item>
-                    <item name="dataScope" xsi:type="string">position</item>
-                </item>
-            </argument>
-        </field>
     </fieldset>
     <fieldset name="description">
         <argument name="data" xsi:type="array">
@@ -145,39 +133,6 @@
                     <item name="source" xsi:type="string">category</item>
                     <item name="wysiwyg" xsi:type="boolean">true</item>
                     <item name="dataScope" xsi:type="string">description</item>
-                </item>
-            </argument>
-        </field>
-    </fieldset>
-    <fieldset name="display_settings">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="collapsible" xsi:type="boolean">true</item>
-                <item name="label" xsi:type="string" translate="true">Display Settings</item>
-                <item name="sortOrder" xsi:type="number">30</item>
-            </item>
-        </argument>
-        <field name="posts_sort_by">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Victory\Blog\Model\Config\Source\PostsSortBy</item>
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Posts Sort By</item>
-                    <item name="formElement" xsi:type="string">select</item>
-                    <item name="source" xsi:type="string">category</item>
-                    <item name="dataScope" xsi:type="string">posts_sort_by</item>
-                    <item name="default" xsi:type="string">0</item>
-                </item>
-            </argument>
-        </field>
-        <field name="posts_per_page">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">integer</item>
-                    <item name="label" xsi:type="string" translate="true">Posts Per Page</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">category</item>
-                    <item name="dataScope" xsi:type="string">posts_per_page</item>
                 </item>
             </argument>
         </field>

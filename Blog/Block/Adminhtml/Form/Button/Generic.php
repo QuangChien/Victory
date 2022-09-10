@@ -30,7 +30,6 @@ class Generic
     }
 
     /**
-     * Return CMS block ID
      *
      * @return int|null
      */

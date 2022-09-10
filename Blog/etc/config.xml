@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author QuangChien(Glorious Victory) <quangchien01.it@gmail.com>
+ * @copyright Copyright © 2022 QuangChien(Glorious Victory) <https://www.facebook.com/quangchien01>. All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <gvblog>
+            <general>
+                <enable>1</enable>
+                <posts_per_page>5</posts_per_page>
+            </general>
+
+            <index_page>
+                <title>All Posts</title>
+                <meta_title>All Posts</meta_title>
+                <meta_keywords>All Posts</meta_keywords>
+                <meta_description>All Posts</meta_description>
+            </index_page>
+
+            <sidebar>
+                <recent_posts_total_number>5</recent_posts_total_number>
+            </sidebar>
+            <permalink>
+                <route>blog</route>
+                <type>default</type>
+                <post_route>post</post_route>
+                <category_route>category</category_route>
+                <author_route>author</author_route>
+            </permalink>
+        </gvblog>
+    </default>
+</config>

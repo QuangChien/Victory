@@ -36,6 +36,11 @@ class PageUrlKeyGenerator
         $this->_categoryFactory = $categoryFactory;
     }
 
+    /**
+     * @param \Magento\Framework\DataObject $object
+     * @param $field
+     * @return void
+     */
     public function generate(\Magento\Framework\DataObject $object, $field)
     {
         if ($object->getData('url_key')) {

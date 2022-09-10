@@ -28,7 +28,7 @@ class Back extends Generic implements ButtonProviderInterface
     }
 
     /**
-     * get category list url
+     * get url list page
      *
      * @return string
      */

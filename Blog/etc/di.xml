@@ -52,5 +52,4 @@
             <argument name="resourceModel" xsi:type="string">Victory\Blog\Model\ResourceModel\Comment</argument>
         </arguments>
     </virtualType>
-
 </config>

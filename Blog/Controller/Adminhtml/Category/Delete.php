@@ -9,7 +9,7 @@ namespace Victory\Blog\Controller\Adminhtml\Category;
 use Victory\Blog\Controller\Adminhtml\Category;
 
 /**
- * Blog category delete
+ * AbstractBlog category delete
  */
 class Delete extends Category
 {

@@ -64,16 +64,17 @@ class Comment extends AbstractModel implements IdentityInterface
      * @param array $data
      */
     public function __construct(
-        Context $context,
-        Registry $registry,
-        PostFactory $postFactory,
-        CustomerFactory $customerFactory,
-        UserFactory $userFactory,
+        Context           $context,
+        Registry          $registry,
+        PostFactory       $postFactory,
+        CustomerFactory   $customerFactory,
+        UserFactory       $userFactory,
         CollectionFactory $commentCollectionFactory,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
-        array $data = []
-    ) {
+        AbstractResource  $resource = null,
+        AbstractDb        $resourceCollection = null,
+        array             $data = []
+    )
+    {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->postFactory = $postFactory;
@@ -94,7 +95,7 @@ class Comment extends AbstractModel implements IdentityInterface
 
     /**
      * Retrieve model title
-     * @param  boolean $plural
+     * @param boolean $plural
      * @return string
      */
     public function getOwnTitle($plural = false)
@@ -154,23 +155,25 @@ class Comment extends AbstractModel implements IdentityInterface
                         $this->author->setData($guestData);
                     }
                     break;
-                case \Victory\Blog\Model\Config\Source\AuthorType::ADMIN:
-                    $admin = $this->userFactory->create();
-                    $admin->load($this->getAdminId());
-                    if ($admin->getId()) {
-                        $this->author->setData([
-                            'nickname' => $admin->getName(),
-                            'email' => $this->getEmail(),
-                            'admin' => $admin,
-                        ]);
-                    } else {
-                        $this->author->setData($guestData);
-                    }
-                    break;
             }
         }
 
         return $this->author;
+    }
+
+    /**
+     * @param $parentId
+     * @return mixed|void
+     */
+    public function getParentCommentId($parentId)
+    {
+        $comment = clone $this;
+        $comment->load($parentId);
+        if ($comment->getId()) {
+            return $comment->getId();
+        }
+
+        return;
     }
 
     /**
